@@ -1,0 +1,108 @@
+{
+  "projectType": "general",
+  "projectName": "e",
+  "projectDescription": "A comprehensive collection of programs that print the letter 'e' in 130+ programming languages and file formats",
+  "theme": "almond",
+  "primaryColor": "#f4b400",
+  "lightColor": "#ffd966",
+  "darkColor": "#e69500",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "philosophy"
+            ]
+          },
+          {
+            "group": "Languages",
+            "pages": [
+              "languages/overview",
+              "languages/compiled",
+              "languages/scripting",
+              "languages/web",
+              "languages/functional",
+              "languages/assembly",
+              "languages/esoteric"
+            ]
+          },
+          {
+            "group": "File Formats",
+            "pages": [
+              "formats/overview",
+              "formats/images",
+              "formats/audio",
+              "formats/archives",
+              "formats/documents"
+            ]
+          },
+          {
+            "group": "Utilities",
+            "pages": [
+              "utilities/eaas",
+              "utilities/2e",
+              "utilities/e-squared"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/overview",
+              "contributing/adding-languages",
+              "contributing/code-of-conduct"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Language Index",
+            "pages": [
+              "reference/a-to-f",
+              "reference/g-to-m",
+              "reference/n-to-s",
+              "reference/t-to-z"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "130+ language implementations",
+    "Cross-platform assembly examples",
+    "Creative file format demonstrations",
+    "E as a Service (eaas.sh)",
+    "Binary to e converter",
+    "Mathematical constant integration (e.e.py)"
+  ],
+  "publicApiSurface": [
+    "e.py - Python infinite e printer",
+    "e.js - JavaScript infinite e printer",
+    "e.c - C infinite e printer with creative macros",
+    "e.go - Go infinite e printer",
+    "e.rs - Rust infinite e printer",
+    "e.java - Java infinite e printer",
+    "eaas.sh - E as a Service HTTP server",
+    "2E.py - Binary to e/E converter",
+    "e.e.py - Prints e based on digits of Euler's number",
+    "e.asm - x86 assembly implementation",
+    "e_linux_riscv64.S - RISC-V Linux implementation",
+    "e_macOS_64.S - macOS 64-bit implementation",
+    "e_win64.asm - Windows 64-bit implementation",
+    "e.sh - Shell script implementation",
+    "e.html - HTML/JavaScript implementation",
+    "e.sql - SQL implementation",
+    "e.tex - LaTeX implementation",
+    "e.bf - Brainfuck implementation",
+    "e.png - Image representation of 'e'",
+    "e.mp3 - Audio representation of 'e'"
+  ]
+}
