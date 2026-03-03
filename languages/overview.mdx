@@ -1,0 +1,104 @@
+---
+title: Language Overview
+description: A comprehensive collection of programs that print the letter 'e' in 130+ programming languages
+---
+
+The "e" project demonstrates the universal simplicity of printing a single character across an incredible diversity of programming languages, paradigms, and platforms.
+
+## Categories
+
+The implementations are organized into several categories:
+
+<CardGroup cols={2}>
+  <Card title="Compiled Languages" icon="gears" href="/languages/compiled">
+    C, C++, Rust, Go, and other compiled languages
+  </Card>
+  <Card title="Scripting Languages" icon="terminal" href="/languages/scripting">
+    Python, Ruby, Perl, Shell, and dynamic languages
+  </Card>
+  <Card title="Web Technologies" icon="globe" href="/languages/web">
+    JavaScript, TypeScript, HTML, PHP, and web frameworks
+  </Card>
+  <Card title="Functional Languages" icon="function" href="/languages/functional">
+    Haskell, OCaml, Lisp, Scheme, and functional paradigms
+  </Card>
+  <Card title="Assembly Languages" icon="microchip" href="/languages/assembly">
+    x86, ARM, RISC-V, MIPS, and low-level programming
+  </Card>
+  <Card title="Esoteric Languages" icon="wand-magic-sparkles" href="/languages/esoteric">
+    Brainfuck, LOLCODE, ArnoldC, and creative languages
+  </Card>
+</CardGroup>
+
+## Common Patterns
+
+Across all languages, you'll find these recurring patterns:
+
+### Infinite Loops
+
+Most implementations use an infinite loop to continuously print 'e':
+
+<CodeGroup>
+```c C
+for(;;) {
+    printf("e");
+}
+```
+
+```python Python
+while True:
+    print('e', end='')
+```
+
+```go Go
+for {
+    print("e")
+}
+```
+</CodeGroup>
+
+### Recursion
+
+Functional languages often prefer recursive approaches:
+
+<CodeGroup>
+```haskell Haskell
+main = putStr $ cycle "e"
+```
+
+```scheme Scheme
+(define (e)
+    (display "e")
+    (e))
+(e)
+```
+
+```ocaml OCaml
+let rec eee e = Printf.printf "e"; eee ();;
+let () = eee ();;
+```
+</CodeGroup>
+
+### System Calls
+
+Assembly implementations directly invoke system calls for output:
+
+```asm x86-64 Linux
+mov rax, 1      ; sys_write
+mov rdi, 1      ; stdout
+mov rsi, msg    ; buffer
+mov rdx, 1      ; length
+syscall
+```
+
+## Statistics
+
+- **130+** total implementations
+- **20+** assembly variants across different architectures
+- **10+** functional languages
+- **5+** esoteric languages
+- **Multiple** web frameworks and technologies
+
+<Note>
+Each implementation prioritizes simplicity and demonstrates the unique syntax and idioms of its respective language.
+</Note>

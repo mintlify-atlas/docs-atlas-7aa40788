@@ -1,0 +1,409 @@
+---
+title: Assembly Languages
+description: Low-level implementations across x86, ARM, RISC-V, MIPS, and other architectures
+---
+
+Assembly language provides direct control over hardware through CPU instructions. Each architecture has unique characteristics and system call conventions.
+
+## x86-64 Architecture
+
+### Linux x86-64
+
+Optimized implementation using a buffer:
+
+```asm e.asm
+; compile with:
+; $ [ny]asm -felf(32|64) -oe.o e.asm
+; $ (gcc|clang) -m(32|64) -oe e.o -nostdlib -nostartfiles
+
+section     .text
+global      _start
+
+%if __BITS__ == 32
+%define r(n) e%+n
+%define SYS_write 4
+%define rarg0 ebx
+%define rarg1 ecx
+%define rarg2 edx
+%define syscall int 0x80
+%else
+%define r(n) r%+n
+%define SYS_write 1
+%define rarg0 rdi
+%define rarg1 rsi
+%define rarg2 rdx
+default rel
+%endif
+
+; size of a Linux pipe buffer
+%define PIPE_SIZE 0x10000
+%define STDOUT_FILENO 1
+
+; Instead of simply storing a char in .rodata and write(2)-ing it
+; over and over again, we first fill a buffer full of e's, and *then*
+; write the entire buffer. This is much faster than the first option,
+; because we only need to issue a syscall once every 65536 bytes. (Remember
+; that doing a syscall requires the kernel to handle an interrupt etc etc etc.)
+
+_start:
+        ; allocate space for the message
+        mov r(cx), PIPE_SIZE
+        mov r(bx), r(cx) ; we'll need it later
+        sub r(sp), r(cx)
+
+        ; quick memset(3)
+        mov al, 'e'
+        mov r(di), r(sp)
+        rep stosb
+
+        ; push+pop is actually a smaller encoding than mov for ints that fit within 8 bit
+        push STDOUT_FILENO
+        pop rarg0
+        mov rarg1, r(sp)
+        mov rarg2, r(bx)
+
+.loop:
+        ; set this within the loop because the syscall's exit code is placed in r(ax)
+        push SYS_write
+        pop r(ax)
+        syscall
+        jmp short .loop
+```
+
+<Accordion title="Implementation Details">
+This highly optimized implementation:
+- Fills a 64KB buffer with 'e' using `rep stosb`
+- Writes the entire buffer in one syscall for efficiency
+- Uses preprocessor macros for 32/64-bit compatibility
+- Minimizes syscall overhead (major performance bottleneck)
+- Uses `push`/`pop` instead of `mov` for smaller encoding
+</Accordion>
+
+### Simple Linux x86-64
+
+Minimal implementation:
+
+```asm e.s
+.globl _start
+	
+.text	
+_start:
+	movq $1, %rax 
+	movq $1, %rdi
+	movq $e, %rsi
+	movq $e_len, %rdx 
+	syscall
+	jmp _start
+
+.data
+e:
+	.ascii "e"
+e_len = . - e
+```
+
+<Note>
+Linux x86-64 system call convention:
+- `rax` = syscall number (1 = sys_write)
+- `rdi` = file descriptor (1 = stdout)
+- `rsi` = buffer address
+- `rdx` = buffer length
+</Note>
+
+## ARM Architecture
+
+<Tabs>
+  <Tab title="ARM32 Linux">
+    ```asm e.linux.arm.S
+    #define SYS_write 4
+    #define STDOUT 1
+    #define PIPE_SIZE 0x10000
+
+    .arm
+    .align 4
+
+    .section .text, "ax", %progbits
+
+    type _start, %function
+    globl _start
+    _start:
+        mov r1, #PIPE_SIZE
+        
+        ldr r3, =('e'|('e'<<8)|('e'<<16)|('e'<<24))
+        mov r4, r3
+        mov r5, r3
+        mov r6, r3
+        
+    .Lloop:
+        push {r3-r6}
+        sub r1, #(4*4)
+        cmp r1, #0
+        bgt .Lloop
+        
+        mov r7, #SYS_write
+        mov r1, sp
+        mov r2, #PIPE_SIZE
+
+    .Lcall:
+        mov r0, #STDIN
+        swi #0
+        b .Lcall
+        
+    .align 4
+    .pool
+    ```
+    
+    ARM32 features:
+    - Packs four 'e' characters into 32-bit registers
+    - Uses `swi` (software interrupt) for system calls
+    - Push multiple registers at once with `push {r3-r6}`
+  </Tab>
+  <Tab title="ARM64 iOS">
+    ```asm e_iOS_arm64.S
+    # xcrun -sdk iphoneos clang -arch arm64 e_iOS_arm64.S -o eeee
+    .align 2
+    eeee:
+        .asciz "eee"
+    .globl _main
+    .align 2
+    _main:
+    eeeeeeeeeeeeeeeeeeeeeee:
+        movz x0, 1
+        adr x1, eeee
+        mov  x2, 3
+        movz x16, 0x4
+        svc 0x80
+        b eeeeeeeeeeeeeeeeeeeeeee
+    ```
+    
+    iOS ARM64 specifics:
+    - Uses `svc 0x80` for system calls
+    - Syscall number in `x16` instead of `x8` (Linux convention)
+    - Must use `_main` entry point for iOS
+  </Tab>
+</Tabs>
+
+## RISC-V
+
+The clean RISC architecture:
+
+```asm e_linux_riscv64.S
+    .data
+e:  .byte 'e'
+
+    .text
+    .globl _start
+_start:
+    li a7, 64
+    la a1, e
+    li a2, 1
+l:  li a0, 1
+    ecall
+    j l
+```
+
+<Tip>
+RISC-V system call convention:
+- `a7` = syscall number (64 = write)
+- `a0` = file descriptor
+- `a1` = buffer address
+- `a2` = length
+- `ecall` instruction invokes the syscall
+</Tip>
+
+## MIPS
+
+```asm e_mips.asm
+	.data
+echar: .ascii "e"
+	.text
+e:
+  li $v0, 4
+  la $a0, echar
+  syscall
+  j e
+```
+
+MIPS characteristics:
+- `$v0` = syscall number (4 = print string)
+- `$a0` = string address
+- `syscall` instruction with SPIM/MARS conventions
+
+## Platform-Specific x86
+
+<Tabs>
+  <Tab title="macOS x86-64">
+    ```asm e_macOS_64.S
+    # clang e_macOS_64.S -o eeeee && ./eeeee
+    .globl _main
+    .text
+    _main:
+      pushq $0x65656565
+    eee:
+      movq $0x2000004, %rax
+      movq $1, %rdi
+      movq %rsp, %rsi
+      movq $4, %rdx
+      syscall
+      jmp eee
+    ```
+    
+    macOS features:
+    - Syscall numbers have `0x2000000` offset
+    - Entry point is `_main`, not `_start`
+    - Uses BSD syscall convention
+    - Pushes four 'e's (0x65656565) on stack
+  </Tab>
+  <Tab title="Windows 64-bit">
+    ```asm e_win64.asm
+    format PE64 console
+    entry start
+
+    include 'win64a.inc'
+
+    section '.text' code readable executable
+
+    	start:
+    		and rsp, -16
+    	
+    	putE:
+    		invoke printf, e
+    		jmp putE
+
+    section '.data' data readable
+
+    	e db "e", 0
+    		
+    section '.idata' import data readable writeable
+
+    	library msvcrt,'MSVCRT.DLL'
+
+    	import msvcrt,\
+    		printf,'printf'
+    ```
+    
+    Windows uses C runtime library instead of direct syscalls.
+  </Tab>
+  <Tab title="Windows 32-bit">
+    ```asm e_win32.asm
+    format PE console
+    entry start
+
+    include 'win32a.inc'
+
+    section '.text' code readable executable
+
+    	start:
+    		invoke printf, e
+    		jmp start
+
+    section '.data' data readable
+
+    	e db "e", 0
+
+    section '.idata' import data readable writeable
+
+    	library msvcrt,'MSVCRT.DLL'
+
+    	import msvcrt,\
+    		printf,'printf'
+    ```
+  </Tab>
+  <Tab title="DOS">
+    ```asm e_dos.asm
+    org 0x100
+
+    putE:
+    mov ah, 0x0E
+    mov al, 'e'
+    int 0x10
+    jmp putE
+    ```
+    
+    DOS BIOS interrupt:
+    - `int 0x10` = BIOS video services
+    - `ah = 0x0E` = teletype output
+    - `al` = character to print
+  </Tab>
+</Tabs>
+
+## Exotic Architectures
+
+<Tabs>
+  <Tab title="Motorola 68000">
+    ```asm e.x68
+    ORG $1000
+    START:
+    
+    LOOP:
+        MOVE.B  #'e',D1
+        MOVE.W  #6,D0
+        TRAP    #15
+        BRA     LOOP
+    
+        SIMHALT
+    
+        END    START
+    ```
+  </Tab>
+  <Tab title="LC-3">
+    ```asm e_lc3.asm
+    .ORIG x3000
+    
+    AND R0, R0, #0
+    ADD R0, R0, #5
+    ADD R0, R0, #10
+    ADD R0, R0, #10
+    ADD R0, R0, #10
+    ADD R0, R0, #10
+    ADD R0, R0, #10
+    ADD R0, R0, #11
+    
+    LOOP OUT
+    BR LOOP
+    
+    .END
+    ```
+    
+    LC-3 (Little Computer 3) is an educational ISA. Building 'e' (ASCII 101) requires multiple ADD instructions.
+  </Tab>
+</Tabs>
+
+## Performance Comparison
+
+<CardGroup cols={2}>
+  <Card title="Buffered Output" icon="gauge-high">
+    The optimized x86-64 implementation is **~1000x faster** than single-character writes.
+    
+    Syscall overhead dominates performance.
+  </Card>
+  <Card title="Instruction Count" icon="microchip">
+    RISC architectures (RISC-V, MIPS) use more instructions but simpler operations.
+    
+    CISC (x86) uses fewer, more complex instructions.
+  </Card>
+  <Card title="Platform Syscalls" icon="server">
+    Linux: Direct kernel syscalls
+    
+    Windows: C runtime library calls
+    
+    macOS: BSD syscalls with offset
+  </Card>
+  <Card title="Register Usage" icon="memory">
+    Each architecture has different calling conventions and register purposes.
+  </Card>
+</CardGroup>
+
+## System Call Conventions Summary
+
+| Architecture | Syscall Instruction | Number Register | Arguments |
+|--------------|---------------------|-----------------|------------|
+| x86-64 Linux | `syscall` | `rax` | `rdi`, `rsi`, `rdx` |
+| x86 Linux | `int 0x80` | `eax` | `ebx`, `ecx`, `edx` |
+| ARM32 Linux | `swi 0` | `r7` | `r0-r6` |
+| ARM64 iOS | `svc 0x80` | `x16` | `x0-x7` |
+| RISC-V Linux | `ecall` | `a7` | `a0-a5` |
+| MIPS | `syscall` | `$v0` | `$a0-$a3` |
+
+<Warning>
+Assembly programs are architecture and OS-specific. They won't run on different platforms without modification.
+</Warning>

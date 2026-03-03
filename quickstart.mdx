@@ -1,80 +1,260 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Run your first 'e' program in minutes"
 ---
 
-## Get started in three steps
+# Quickstart Guide
 
-Get your documentation site running locally and make your first customization.
-
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+Get up and running with 'e' in just a few steps. This guide will walk you through running your first 'e' program across multiple languages.
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  All source files are located in the `source/` directory. Each file follows the naming convention `e.<extension>`.
 </Note>
+
+## Prerequisites
+
+To run 'e' programs, you'll need the appropriate language runtime or compiler installed. Here are some common ones:
+
+- **Python 3**: `python3`
+- **Node.js**: `node`
+- **Go**: `go`
+- **Rust**: `rustc` and `cargo`
+- **C/C++**: `gcc` or `clang`
+- **Ruby**: `ruby`
+- **Java**: `javac` and `java`
+
+## Running Your First 'e'
+
+<Steps>
+  <Step title="Choose a Language">
+    Pick your favorite programming language. We'll start with Python as an example:
+    
+    ```python e.py
+    import sys
+
+    try:
+        while 'e':
+            sys.stdout.write('e')
+    except KeyboardInterrupt as e:
+        sys.exit('e')
+    ```
+  </Step>
+
+  <Step title="Run the Program">
+    Execute the program using your language's runtime:
+    
+    ```bash
+    python3 source/e.py
+    ```
+    
+    You should see an infinite stream of 'e' characters:
+    ```
+    eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee...
+    ```
+  </Step>
+
+  <Step title="Stop the Program">
+    Press `Ctrl+C` to stop the infinite 'e' stream.
+    
+    <Tip>
+      Most 'e' programs are designed to run forever. Always use `Ctrl+C` to terminate them gracefully.
+    </Tip>
+  </Step>
+</Steps>
+
+## Try More Languages
+
+Once you've successfully run your first 'e', try exploring other implementations:
+
+### JavaScript
+
+```bash
+node source/e.js
+```
+
+```javascript e.js
+while ('e') console.log('e');
+```
+
+### Go
+
+```bash
+go run source/e.go
+```
+
+```go e.go
+package main
+
+func main() {
+	for {
+		print("e")
+	}
+}
+```
+
+### Rust
+
+```bash
+rustc source/e.rs -o e_binary && ./e_binary
+```
+
+```rust e.rs
+#![feature(main)]
+#[cfg(not(feature = "functional"))]
+#[main]
+fn e() -> ! {
+    loop {
+        print!("e");
+    }
+}
+```
+
+### Ruby
+
+```bash
+ruby source/e.rb
+```
+
+```ruby e.rb
+loop do
+  print 'e'
+end
+```
+
+### Shell Script
+
+```bash
+bash source/e.sh
+```
+
+```bash e.sh
+#!/bin/sh
+yes e | tr -d '\n'
+```
+
+## Compiled Languages
+
+Some languages require compilation before execution:
+
+<CodeGroup>
+
+```bash C
+gcc source/e.c -o e_c && ./e_c
+```
+
+```bash Java
+javac source/e.java && java e
+```
+
+```bash Rust
+rustc source/e.rs -o e_rust && ./e_rust
+```
+
+</CodeGroup>
+
+## Docker
+
+Run 'e' in a container:
+
+```dockerfile e.Dockerfile
+FROM busybox
+
+RUN seq 1 10000 | while read -r e; do echo -ne 'e'; done; echo e;
+
+CMD strings /dev/urandom | grep -oE 'e' | tr -d '\n'
+```
+
+```bash
+docker build -f source/e.Dockerfile -t e:latest .
+docker run e:latest
+```
+
+## Data Formats
+
+'e' isn't limited to executable programs. It exists in data formats too:
+
+<CodeGroup>
+
+```json e.json
+{
+    "e": "e"
+}
+```
+
+```yaml e.yml
+e: e
+```
+
+```sql e.sql
+CREATE DATABASE e;
+USE e;
+
+DELIMITER |
+CREATE PROCEDURE e()
+BEGIN
+    WHILE 'e' = 'e' DO
+        SELECT REPEAT("e",RAND()*100) AS e;
+    END WHILE;
+END|
+DELIMITER ;
+
+CALL e();
+```
+
+</CodeGroup>
+
+## Esoteric Languages
+
+For the adventurous, try esoteric programming languages:
+
+### Brainfuck
+
+```brainfuck e.bf
+++++++++++[>++++++++++<-]>+[.]
+```
+
+This beautifully terse program:
+1. Sets up the ASCII value for 'e' (101)
+2. Enters an infinite loop that prints it
+
+<Note>
+  You'll need a Brainfuck interpreter to run this. Try `bf source/e.bf` if you have one installed.
+</Note>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Understand the Philosophy" icon="book" href="/philosophy">
+    Learn why 'e' exists and what it represents
+  </Card>
+  
+  <Card title="Contribute" icon="code">
+    Add your favorite language to the collection
+  </Card>
+</CardGroup>
+
+## Common Issues
+
+<AccordionGroup>
+  <Accordion title="The program won't stop!">
+    This is by design. All 'e' programs run infinitely. Use `Ctrl+C` to stop execution.
+  </Accordion>
+
+  <Accordion title="I get a 'command not found' error">
+    Make sure you have the appropriate language runtime or compiler installed for the 'e' implementation you're trying to run.
+  </Accordion>
+
+  <Accordion title="Can I redirect output to a file?">
+    Yes! Try `python3 source/e.py > output.txt` but be warned: the file will grow indefinitely until you stop the program.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  **Pro tip**: Use output redirection and `head` to capture a finite amount of 'e's:
+  
+  ```bash
+  python3 source/e.py | head -c 1000
+  ```
+  
+  This will print exactly 1000 'e' characters and then stop.
+</Tip>

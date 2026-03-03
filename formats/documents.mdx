@@ -1,0 +1,435 @@
+---
+title: Document Formats
+description: Typeset and formatted documents containing the letter 'e'
+---
+
+The **e** project includes the letter 'e' in various document formats, demonstrating how typesetting systems, word processors, and page description languages represent formatted text.
+
+## Available Formats
+
+### LaTeX (TeX)
+**File**: `e.tex` | **Size**: 146 bytes
+
+A LaTeX source file that prints the letter 'e' 9,999 times.
+
+<Accordion title="Source Code">
+```latex
+\documentclass[10.5pt,letterpaper]{article}
+
+\begin{document}
+
+\newcount\i
+\i=9999
+\loop
+  e
+  \advance \i -1
+\ifnum \i>0
+\repeat
+
+\end{document}
+```
+
+**How it works**:
+
+1. **Document setup**: Declares an article with 10.5pt font on letter paper
+2. **Counter initialization**: `\newcount\i` creates a counter, `\i=9999` sets it
+3. **Loop structure**: 
+   - `\loop` starts the loop
+   - Prints `e`
+   - `\advance \i -1` decrements counter
+   - `\ifnum \i>0 \repeat` continues if counter > 0
+4. **Result**: Outputs 9,999 'e' characters in a typeset document
+
+**Compilation**:
+```bash
+pdflatex e.tex  # Produces e.pdf
+```
+</Accordion>
+
+**Characteristics**:
+- **Source code**: Human-readable TeX markup
+- **Compilation required**: Must be processed by LaTeX to produce output
+- **Professional typesetting**: TeX is used for scientific papers, books
+- **Programmatic**: Uses loops and counters (Turing-complete language)
+
+### PDF (Portable Document Format)
+**File**: `posteeeer.pdf` | **Size**: 8.6 KB
+
+A rendered PDF document containing the letter 'e' with professional formatting.
+
+<Accordion title="Technical Details">
+- **Version**: PDF 1.5
+- **Size**: 8,806 bytes
+- **Structure**: Binary PDF with embedded fonts and compressed content streams
+- **Compression**: FlateDecode (similar to gzip)
+
+**PDF structure**:
+```
+%PDF-1.5                    # PDF version
+%����                       # Binary marker
+1 0 obj                     # Object 1: Page content
+<</Length 7>>stream
+...
+endstream endobj
+16 0 obj                    # Object 16: Compressed content
+<</Filter/FlateDecode/Length 2339>>stream
+x��]ˎ�6��+...            # Compressed data
+endstream endobj
+```
+
+**How it works**: PDF is a page description language that stores:
+- **Text content**: The letter 'e' with positioning information
+- **Font information**: Font metrics and glyph data
+- **Page layout**: Size, margins, coordinates
+- **Compressed streams**: Content compressed with DEFLATE
+
+PDF is a "final form" document - what you see is what you get on any platform.
+</Accordion>
+
+**Characteristics**:
+- **Platform-independent**: Looks identical everywhere
+- **Self-contained**: Embeds fonts and resources
+- **Not editable**: Display format, not source format
+- **Compressed**: Content streams are compressed
+
+### ODT (OpenDocument Text)
+**File**: `e.odt` | **Size**: 9.7 KB
+
+An OpenDocument format file (used by LibreOffice, OpenOffice) containing 'e'.
+
+<Accordion title="Technical Details">
+- **Format**: ZIP archive containing XML files
+- **Size**: 9,932 bytes
+- **Standard**: OASIS OpenDocument Format (ISO/IEC 26300)
+
+**Internal structure**:
+```bash
+$ unzip -l e.odt
+Archive:  e.odt
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       39  2018-12-08 10:07   mimetype
+      ..  2018-12-08 10:07   META-INF/manifest.xml
+      ..  2018-12-08 10:07   content.xml
+      ..  2018-12-08 10:07   styles.xml
+      ..  2018-12-08 10:07   meta.xml
+      ..  2018-12-08 10:07   settings.xml
+```
+
+**Key files**:
+- **mimetype**: Identifies file as ODT
+- **content.xml**: Actual document content (contains 'e')
+- **styles.xml**: Formatting and style definitions
+- **meta.xml**: Document metadata (author, creation date)
+- **settings.xml**: Application settings
+- **manifest.xml**: Lists all files in archive
+
+**How it works**: ODT uses XML to represent document structure and ZIP compression to package everything together. The 'e' is stored in `content.xml` as:
+
+```xml
+<text:p text:style-name="Standard">e</text:p>
+```
+
+This makes ODT both human-readable (if unzipped) and editable by word processors.
+</Accordion>
+
+**Characteristics**:
+- **Open standard**: ISO/IEC 26300
+- **ZIP-based**: Multiple XML files compressed
+- **Editable**: Source format for word processors
+- **Larger than plain text**: Overhead from XML structure and metadata
+
+### PostScript
+**File**: `e.ps` | **Size**: 20 bytes
+
+A PostScript program that infinitely prints the letter 'e'.
+
+<Accordion title="Source Code">
+```postscript
+%!
+{(e) print} loop
+```
+
+**How it works**:
+
+1. **`%!`**: PostScript signature (magic bytes)
+2. **`(e)`**: String literal containing 'e'
+3. **`print`**: Operator that outputs the string
+4. **`{ }`**: Defines a procedure
+5. **`loop`**: Executes the procedure infinitely
+
+**Execution**: This program will print 'e' repeatedly until interrupted or memory is exhausted.
+
+**PostScript is**:
+- A full programming language (stack-based, Turing-complete)
+- A page description language (used by printers)
+- Executable code (can perform computations)
+
+**To run**:
+```bash
+gs e.ps                    # Ghostscript interpreter
+# Output: eeeeeeeeeeeeee... (until interrupted)
+```
+
+**To render as PDF**:
+```bash
+ps2pdf e.ps e.pdf
+```
+</Accordion>
+
+**Characteristics**:
+- **Executable**: A program, not just data
+- **Infinite output**: Loop runs forever
+- **Minimal**: Just 20 bytes
+- **Page description language**: Used by printers and typesetters
+- **Stack-based**: Uses Reverse Polish Notation
+
+## Format Comparison
+
+| Format | Size | Type | Editable | Output |
+|--------|------|------|----------|--------|
+| PostScript | 20 B | Program | Yes (source) | Infinite 'e's |
+| LaTeX | 146 B | Source | Yes | 9,999 'e's (when compiled) |
+| PDF | 8.6 KB | Binary | No | Fixed document |
+| ODT | 9.7 KB | ZIP/XML | Yes | 1 'e' (editable) |
+
+## Document Format Categories
+
+<Accordion title="Source vs. Output Formats">
+**Source formats** (editable, human-readable):
+- **LaTeX** (`.tex`): Plain text with markup
+- **PostScript** (`.ps`): Can be source or output
+- **ODT** (`.odt`): XML in ZIP (editable by word processors)
+
+Source formats are:
+- Edited by humans or programs
+- Compiled or rendered to create output
+- Version-control friendly (especially plain text)
+
+**Output formats** (final form, display-oriented):
+- **PDF** (`.pdf`): Fixed layout, embedded fonts
+- **PostScript** (`.ps`): Can also be final output for printing
+
+Output formats are:
+- Optimized for viewing/printing
+- Platform-independent appearance
+- Not meant for editing
+- Include everything needed for display
+</Accordion>
+
+## Viewing Document Files
+
+### PDF
+```bash
+# GUI viewers
+evince posteeeer.pdf        # Linux
+open posteeeer.pdf          # macOS  
+start posteeeer.pdf         # Windows
+
+# Command line
+pdftotext posteeeer.pdf -   # Extract text
+pdfinfo posteeeer.pdf        # View metadata
+gs -dNODISPLAY posteeeer.pdf # Ghostscript
+
+# In browser
+firefox posteeeer.pdf
+chrome posteeeer.pdf
+```
+
+### ODT
+```bash
+# Word processors
+libreoffice e.odt
+ooffice e.odt
+
+# Extract text
+odt2txt e.odt
+
+# Examine structure
+unzip -l e.odt               # List contents
+unzip -p e.odt content.xml   # View content
+```
+
+### LaTeX
+```bash
+# Compile to PDF
+pdflatex e.tex              # Creates e.pdf
+latex e.tex                 # Creates e.dvi
+dvipdf e.dvi                # Convert DVI to PDF
+
+# View source
+cat e.tex
+$EDITOR e.tex
+```
+
+### PostScript
+```bash
+# Execute with Ghostscript
+gs e.ps                     # Run program (infinite loop!)
+gs -dNOPAUSE -dBATCH e.ps  # Non-interactive
+
+# Convert to PDF
+ps2pdf e.ps output.pdf
+
+# View source
+cat e.ps
+```
+
+## Converting Between Formats
+
+### LaTeX to PDF
+```bash
+pdflatex e.tex
+# Produces: e.pdf
+```
+
+### PDF to Text
+```bash
+pdftotext posteeeer.pdf output.txt
+pdftohtml posteeeer.pdf
+```
+
+### ODT to PDF
+```bash
+libreoffice --headless --convert-to pdf e.odt
+unoconv -f pdf e.odt
+```
+
+### PostScript to PDF
+```bash
+ps2pdf e.ps output.pdf
+gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite \
+   -sOutputFile=output.pdf e.ps
+```
+
+## Programming with Document Formats
+
+<Accordion title="Python - Generate PDF">
+```python
+from reportlab.pdfgen import canvas
+
+# Create PDF with 'e'
+pdf = canvas.Canvas("e.pdf")
+pdf.drawString(100, 750, "e")
+pdf.save()
+
+# Or use PyPDF2 to read
+import PyPDF2
+
+with open('posteeeer.pdf', 'rb') as f:
+    reader = PyPDF2.PdfReader(f)
+    print(f"Pages: {len(reader.pages)}")
+    text = reader.pages[0].extract_text()
+    print(f"Text: {text}")
+```
+</Accordion>
+
+<Accordion title="Python - Work with ODT">
+```python
+from odf import text, teletype
+from odf.opendocument import load, OpenDocumentText
+
+# Read ODT
+doc = load("e.odt")
+for para in doc.getElementsByType(text.P):
+    print(teletype.extractText(para))
+
+# Create ODT
+new_doc = OpenDocumentText()
+p = text.P(text="e")
+new_doc.text.addElement(p)
+new_doc.save("new_e.odt")
+```
+</Accordion>
+
+<Accordion title="Python - Generate LaTeX">
+```python
+# Generate LaTeX source
+latex_source = r"""
+\documentclass{article}
+\begin{document}
+e
+\end{document}
+"""
+
+with open('generated.tex', 'w') as f:
+    f.write(latex_source)
+
+# Compile with subprocess
+import subprocess
+subprocess.run(['pdflatex', 'generated.tex'])
+```
+</Accordion>
+
+## File Size Analysis
+
+<Accordion title="Why Different Sizes?">
+**PostScript (20 bytes)**:
+- Just the code: `%!\n{(e) print} loop`
+- No metadata, no formatting
+- Minimal executable program
+
+**LaTeX (146 bytes)**:
+- Document structure: `\documentclass`, `\begin{document}`
+- Counter logic: `\newcount`, `\loop`, `\advance`
+- Human-readable source code
+- No binary data
+
+**PDF (8.6 KB)**:
+- Binary format with overhead
+- Embedded font information
+- Page layout data
+- Compressed content streams
+- Document metadata
+- Cross-reference tables
+- File structure overhead (~2-3 KB typical minimum)
+
+**ODT (9.7 KB)**:
+- ZIP archive (compression overhead)
+- Multiple XML files (content, styles, meta, settings)
+- Manifest describing file structure  
+- OpenDocument metadata
+- Style definitions
+- Minimum ODT structure is ~8-9 KB even for one character
+</Accordion>
+
+## Use Cases
+
+**LaTeX** is best for:
+- Scientific papers and books
+- Documents with complex math
+- Version control (plain text)
+- Automated document generation
+- Professional typesetting
+
+**PDF** is best for:
+- Final distribution
+- Print-ready documents
+- Platform-independent viewing
+- Forms and interactive documents
+- Archival (PDF/A)
+
+**ODT** is best for:
+- Collaborative editing
+- Word processor workflows
+- Open-source document management
+- Cross-platform editing
+- When you need editability
+
+**PostScript** is best for:
+- Printer communication
+- Procedural graphics
+- Legacy printing systems
+- Programmatic page layout
+
+## Key Takeaways
+
+1. **PostScript is executable code** that can run infinitely
+2. **LaTeX is a programming language** for typesetting (loops, counters)
+3. **PDF is a final-form format** optimized for viewing, not editing
+4. **ODT is XML-based and editable** by word processors
+5. **Size overhead is significant** - 8-10 KB minimum for binary formats
+6. **Source vs. output**: LaTeX/ODT are source, PDF is output
+7. **Compression is built-in**: PDF and ODT both use DEFLATE compression
+
+For representing 'e', **PostScript is most minimal** (20 bytes), **LaTeX is most programmatic** (loops 9,999 times), **PDF is most portable** (looks the same everywhere), and **ODT is most editable** (word processor format).

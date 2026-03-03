@@ -1,0 +1,228 @@
+---
+title: Scripting Languages
+description: Implementations in Python, Ruby, Perl, Shell, and other interpreted languages
+---
+
+Scripting languages excel at rapid development and readable code. Here's how various scripting languages handle the simple task of printing 'e' infinitely.
+
+## Python
+
+Python's implementation includes proper signal handling:
+
+```python e.py
+import sys
+
+try:
+    while 'e':
+        sys.stdout.write('e')
+except KeyboardInterrupt as e:
+    sys.exit('e')
+```
+
+<Note>
+Using `sys.stdout.write()` instead of `print()` avoids the newline character and is more efficient for continuous output.
+</Note>
+
+### Why `while 'e'`?
+
+In Python, non-empty strings are truthy, so `while 'e':` creates an infinite loop. The variable naming convention maintains the 'e' theme throughout.
+
+## Ruby
+
+Ruby offers the most elegant syntax:
+
+```ruby e.rb
+loop do
+  print 'e'
+end
+```
+
+Ruby's `loop` keyword creates an infinite loop without any condition checking, making it the cleanest implementation.
+
+## Perl
+
+Perl with UTF-8 support and strict mode:
+
+```perl e.pl
+#!/usr/bin/env perl
+
+use utf8;
+use strict;
+use warnings;
+
+for( ; ; )
+	{
+		printf"e";
+	}
+```
+
+The C-style for loop `for( ; ; )` is a classic Perl idiom for infinite iteration.
+
+## Shell Scripting
+
+<Tabs>
+  <Tab title="Bash/sh">
+    ```bash e.sh
+    #!/bin/sh
+    yes e | tr -d '\n'
+    ```
+    
+    This elegant one-liner uses:
+    - `yes e` - repeats 'e' with newlines
+    - `tr -d '\n'` - removes all newlines
+    
+    <Tip>
+    The `yes` command is designed for piping repeated input, making it perfect for this task.
+    </Tip>
+  </Tab>
+  <Tab title="Tcl">
+    ```tcl e.tcl
+    #!/usr/bin/env tclsh
+    while {1} {
+        puts -nonewline "e"
+        flush stdout
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Lua
+
+Lua's minimalist approach:
+
+```lua e.lua
+while e==e do
+    print('e')
+end
+```
+
+<Note>
+In Lua, undefined variables are `nil`, and this creates an infinite loop through the truthy comparison `e==e` (which becomes `nil==nil`).
+</Note>
+
+## Dynamic JVM Languages
+
+<CodeGroup>
+```groovy Groovy
+while(true) { print 'e' }
+```
+
+```clojure Clojure
+(loop (print "e"))
+```
+</CodeGroup>
+
+## BEAM VM Languages
+
+Languages running on the Erlang VM:
+
+<Tabs>
+  <Tab title="Erlang">
+    ```erlang e.erl
+    #!/usr/bin/env escript
+    main(_) ->
+        io:format("e"),
+        main('e').
+    ```
+    
+    Erlang uses tail recursion for the infinite loop, which is optimized by the VM.
+  </Tab>
+  <Tab title="Elixir">
+    ```elixir e.ex
+    defmodule E do
+      def e, do: (IO.write("e"); e())
+    end
+
+    E.e()
+    ```
+    
+    Elixir's concise syntax with pattern matching and tail recursion.
+  </Tab>
+</Tabs>
+
+## Alternative Scripting Languages
+
+<Tabs>
+  <Tab title="CoffeeScript">
+    ```coffeescript e.coffee
+    while 'e'
+      console.log 'e'
+    ```
+    
+    CoffeeScript's Python-like indentation with JavaScript semantics.
+  </Tab>
+  <Tab title="R">
+    ```r e.R
+    repeat print('e')
+    ```
+    
+    R's `repeat` keyword creates an infinite loop.
+  </Tab>
+  <Tab title="Julia">
+    ```julia eeee.jl
+    while true
+      print("e")
+    end
+    ```
+  </Tab>
+  <Tab title="AWK">
+    ```awk eee.awk
+    BEGIN { while (1) print "e" }
+    ```
+    
+    AWK's BEGIN block executes before processing any input.
+  </Tab>
+</Tabs>
+
+## Specialized Scripting
+
+<Tabs>
+  <Tab title="VBScript">
+    ```vbscript e.vbs
+    Do
+        WScript.StdOut.Write "e"
+    Loop
+    ```
+  </Tab>
+  <Tab title="AppleScript">
+    ```applescript e.applescript
+    repeat while true
+        log "e"
+    end repeat
+    ```
+  </Tab>
+  <Tab title="PowerShell">
+    ```powershell e.ps1
+    while($true) {
+        Write-Host -NoNewline "e"
+    }
+    ```
+  </Tab>
+  <Tab title="Batch">
+    ```batch e.bat
+    :e
+    @echo | set /p=e
+    @goto e
+    ```
+    
+    DOS batch file using labels and goto for the loop.
+  </Tab>
+</Tabs>
+
+## Performance Comparison
+
+<AccordionGroup>
+  <Accordion title="Fastest">
+    LuaJIT and shell scripts using `yes` command are typically the fastest due to minimal overhead.
+  </Accordion>
+  <Accordion title="Most Readable">
+    Ruby's `loop do` syntax wins for readability and expressiveness.
+  </Accordion>
+  <Accordion title="Most Portable">
+    Python's implementation works across all platforms with consistent behavior.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+All these implementations create infinite loops. Use Ctrl+C (or Cmd+C on macOS) to terminate.
+</Warning>

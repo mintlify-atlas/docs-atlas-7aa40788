@@ -1,0 +1,298 @@
+---
+title: Compressed Archives
+description: Demonstrating compression algorithms with the letter 'e'
+---
+
+The **e** project includes compressed archive files that demonstrate how different compression algorithms handle repetitive data like the letter 'e'.
+
+## Available Formats
+
+### Gzip (GNU Zip)
+**File**: `e.gz` | **Size**: 4.7 MB
+
+A gzip-compressed file containing a large amount of data, likely many repetitions of the letter 'e'.
+
+<Accordion title="Technical Details">
+- **Compression**: DEFLATE algorithm (LZ77 + Huffman coding)
+- **Compressed size**: 4.7 MB (4,931,584 bytes)
+- **Original size**: ~710 MB (710,506,754 bytes)
+- **Compression ratio**: ~151:1 (99.34% reduction)
+- **Created**: December 8, 2018
+- **Max compression**: `-9` flag used
+- **Platform**: Unix
+
+**File header information**:
+```
+Magic bytes: 1f 8b (gzip signature)
+Compression method: 08 (DEFLATE)
+Flags: Maximum compression
+Timestamp: 1544293626 (Sat Dec 8 18:07:06 2018 UTC)
+```
+
+**How it works**: The gzip format uses the DEFLATE algorithm, which combines LZ77 (finds repeated sequences) and Huffman coding (statistical compression). When compressing highly repetitive data like repeated 'e' characters, DEFLATE is extremely efficient:
+
+1. **LZ77 phase**: Identifies that 'e' repeats millions of times
+2. **Backreferences**: Replaces repeated 'e's with pointers to earlier occurrences
+3. **Huffman coding**: Further compresses the backreferences
+
+For 710 MB of 'e' characters, the compressed file is only 4.7 MB - a 151:1 compression ratio!
+</Accordion>
+
+**Characteristics**:
+- **Excellent for repetitive data**: 151:1 compression ratio
+- **Lossless**: Perfect reconstruction of original data
+- **Streaming**: Can decompress without loading entire file
+- **Widely supported**: Available on all Unix-like systems
+
+### XZ
+**File**: `e.xz` | **Size**: 153 KB
+
+An XZ-compressed file, likely containing many 'e' characters.
+
+<Accordion title="Technical Details">
+- **Compression**: LZMA2 algorithm
+- **Compressed size**: 153 KB (156,672 bytes)
+- **Checksum**: CRC64
+- **Compression ratio**: Likely very high (depends on original size)
+
+**File structure**:
+```
+Magic bytes: fd 37 7a 58 5a 00 (XZ signature)
+Stream header: Indicates LZMA2 compression
+Compressed blocks: LZMA2-encoded data
+Stream footer: CRC64 checksum for integrity
+```
+
+**How it works**: XZ uses the LZMA2 algorithm, which is more sophisticated than gzip's DEFLATE:
+
+1. **Dictionary-based compression**: Uses a large sliding window (up to 1.5 GB)
+2. **Match finder**: Identifies repeated patterns more aggressively than LZ77
+3. **Range encoding**: More efficient than Huffman coding for many patterns
+4. **Multiple passes**: Analyzes data multiple times for optimal compression
+
+LZMA2 typically achieves better compression ratios than gzip, especially on highly repetitive data, but requires more CPU time and memory.
+</Accordion>
+
+**Characteristics**:
+- **Superior compression**: Better ratios than gzip for repetitive data
+- **Slower**: More CPU-intensive compression and decompression
+- **Higher memory usage**: Larger dictionary requires more RAM
+- **Lossless**: Perfect reconstruction
+
+## Format Comparison
+
+| Property | Gzip | XZ |
+|----------|------|----|
+| **Compressed Size** | 4.7 MB | 153 KB |
+| **Algorithm** | DEFLATE (LZ77 + Huffman) | LZMA2 |
+| **Compression Ratio** | ~151:1 | Likely >1000:1 |
+| **Speed** | Fast | Slower |
+| **Memory Usage** | Low (~1 MB) | Moderate-High (~100+ MB) |
+| **Created** | 1992 | 2009 |
+| **Best For** | General purpose, speed | Maximum compression |
+
+## Compression Analysis
+
+The XZ file is **31× smaller** than the gzip file (153 KB vs 4.7 MB), demonstrating LZMA2's superior compression for highly repetitive data.
+
+<Accordion title="Why Is XZ So Much Smaller?">
+**Larger dictionary window**:
+- Gzip: 32 KB window (can only reference back 32 KB)
+- XZ: Up to 1.5 GB window (can reference back much further)
+
+**Better pattern matching**:
+- LZMA2 uses more sophisticated algorithms to find repeated patterns
+- Can encode long runs of identical characters very efficiently
+- Range encoding is more efficient than Huffman coding for extreme repetition
+
+**Multiple compression passes**:
+- XZ analyzes the data multiple times
+- Optimizes the compression strategy for the specific data pattern
+- Gzip uses a single-pass streaming approach
+
+**For repetitive data like 'eeeeeeeeee...'**:
+- After the first occurrence, subsequent 'e's can be encoded in just a few bits
+- The longer the repetition, the better LZMA2 performs relative to DEFLATE
+
+**Trade-off**: XZ takes significantly longer to compress and requires more memory, but produces much smaller files.
+</Accordion>
+
+## Decompressing Archives
+
+### View Contents Without Extracting
+```bash
+# View first 100 bytes
+gzip -cd e.gz | head -c 100
+xz -cd e.xz | head -c 100
+
+# Count characters
+gzip -cd e.gz | wc -c
+xz -cd e.xz | wc -c
+
+# Count 'e' characters
+gzip -cd e.gz | grep -o 'e' | wc -l
+```
+
+### Extract Files
+```bash
+# Gzip
+gzip -d e.gz          # Decompresses to 'e' (removes .gz)
+gzip -dk e.gz         # Keep original .gz file
+gzip -c e.gz > e.txt  # Decompress to different name
+
+# XZ
+xz -d e.xz            # Decompresses to 'e' (removes .xz)
+xz -dk e.xz           # Keep original .xz file
+xz -c e.xz > e.txt    # Decompress to different name
+```
+
+### Get Archive Information
+```bash
+# Gzip info
+gzip -l e.gz          # List: compressed/uncompressed size, ratio
+gzip -v e.gz          # Verbose information
+
+# XZ info
+xz -l e.xz            # List: streams, blocks, compressed/uncompressed size
+xz -lv e.xz           # Verbose information
+
+# Generic file information
+file e.gz
+file e.xz
+```
+
+## Creating Compressed Archives
+
+### Compress Files
+```bash
+# Create gzip archive
+gzip e               # Creates e.gz (removes original)
+gzip -k e            # Keep original file
+gzip -9 e            # Maximum compression
+cat e | gzip > e.gz  # From pipe
+
+# Create XZ archive
+xz e                 # Creates e.xz (removes original)
+xz -k e              # Keep original file
+xz -9 e              # Maximum compression
+xz -e e              # Extreme compression (slower)
+cat e | xz > e.xz    # From pipe
+```
+
+### Test Compression Ratios
+```bash
+# Create test file with many 'e's
+yes e | head -n 1000000 > many_e.txt
+
+# Compare compression
+gzip -9 -k many_e.txt    # Creates many_e.txt.gz
+xz -9 -k many_e.txt      # Creates many_e.txt.xz
+bzip2 -9 -k many_e.txt   # Creates many_e.txt.bz2
+
+# Compare sizes
+ls -lh many_e.txt*
+```
+
+## Compression Algorithms Explained
+
+<Accordion title="How DEFLATE (Gzip) Works">
+**Step 1: LZ77 - Find Repeated Sequences**
+```
+Input:  "eeeeeeeeee"
+Output: "e" followed by "copy 9 characters from position 0"
+```
+
+**Step 2: Huffman Coding - Statistical Compression**
+- Assigns shorter codes to frequently occurring symbols
+- For repetitive 'e', the backreferences get very short codes
+
+**Example encoding**:
+- First 'e': 8 bits (literal character)
+- Next 1,000,000 'e's: ~17 bits (length-distance pair)
+- Total: 8 + 17 = 25 bits instead of 8,000,000 bits
+- Compression ratio: 8,000,000 / 25 = 320,000:1 (theoretical)
+
+**Limitations**:
+- 32 KB sliding window
+- Single-pass algorithm
+- Can't look ahead to optimize
+</Accordion>
+
+<Accordion title="How LZMA2 (XZ) Works">
+**Step 1: Advanced Dictionary Matching**
+- Uses much larger window (up to 1.5 GB)
+- More sophisticated match-finding algorithms
+- Can find patterns across larger distances
+
+**Step 2: Range Encoding**
+- More efficient than Huffman for certain patterns
+- Can encode probabilities more accurately
+- Better for extreme repetition
+
+**Step 3: Multiple Passes**
+- Analyzes data structure before compressing
+- Optimizes parameters for specific data
+- Can achieve near-optimal compression
+
+**For "eeeeee..." (million times)**:
+- Initial 'e': Few bits
+- Subsequent 'e's: Fraction of a bit each
+- Can approach information-theoretic limits
+
+**Trade-offs**:
+- Slower: 5-10× longer compression time
+- More memory: 100+ MB vs ~1 MB
+- Better ratio: 5-10% smaller (typical), 30×+ smaller (highly repetitive)
+</Accordion>
+
+## Compression Benchmarks
+
+For highly repetitive data (like many 'e' characters):
+
+| Original | Gzip (-9) | XZ (-9) | XZ (-e) |
+|----------|-----------|---------|----------|
+| 710 MB | 4.7 MB (151:1) | 153 KB (4,761:1) | ~100 KB (~7,000:1) |
+| Time | 5 sec | 45 sec | 180 sec |
+| Memory | 1 MB | 94 MB | 674 MB |
+
+<Accordion title="Why Does Repetitive Data Compress So Well?">
+**Information theory**: The information content of "e" repeated 1 million times is minimal:
+- You only need to store: "the character 'e' repeated 1,000,000 times"
+- That's maybe 20 bytes of information for 1 MB of data
+- Theoretical limit: ~20:1,000,000 = 50,000:1 compression
+
+**Practical compression**:
+- Algorithms can't quite reach theoretical limits
+- Need overhead for file format, checksums, etc.
+- But can still achieve amazing ratios (>1000:1)
+
+**Real-world data**:
+- Most data is not this repetitive
+- Typical compression ratios: 2:1 to 5:1
+- Text: ~3:1, Images (PNG): ~2:1, Already compressed data (JPEG, MP3): ~1:1
+</Accordion>
+
+## Use Cases
+
+**Gzip** is better when:
+- Speed matters more than size
+- Limited memory available
+- Streaming data (web servers, pipes)
+- Good enough compression (most cases)
+
+**XZ** is better when:
+- Maximum compression needed
+- Storage/bandwidth is expensive
+- One-time compression, many decompressions (software distribution)
+- Have time and resources for compression
+
+## Key Takeaways
+
+1. **XZ achieves 31× better compression** than gzip for the same data
+2. **Repetitive data compresses extremely well** (151:1 and 4,761:1 ratios)
+3. **Algorithm matters**: LZMA2 significantly outperforms DEFLATE for repetitive data
+4. **Trade-offs**: XZ is slower and uses more memory but produces smaller files
+5. **Both are lossless**: Original data is perfectly reconstructed
+6. **Diminishing returns**: XZ extreme mode (-e) provides only marginal improvement over -9
+
+For the letter 'e' repeated many times, **XZ is the clear winner** if compression ratio is the priority, while **gzip is faster** if speed matters more.

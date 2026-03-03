@@ -1,0 +1,290 @@
+---
+title: Compiled Languages
+description: Implementations in C, C++, Rust, Go, and other compiled languages
+---
+
+Compiled languages transform source code into machine code before execution, offering performance and type safety. Here's how different compiled languages print the letter 'e'.
+
+## C
+
+The classic C implementation with creative macro usage:
+
+```c e.c
+#include <stdio.h>
+#define e "e"
+#define ee int
+#define eee main
+#define eeee (
+#define eeeee )
+#define eeeeee {
+#define eeeeeee }
+#define eeeeeeee for
+#define eeeeeeeee ;
+#define eeeeeeeeee printf
+#define eeeeeeeeeee return
+#define eeeeeeeeeeee on_exit
+#define eeeeeeeeeeeee [
+#define eeeeeeeeeeeeee ]
+#define eeeeeeeeeeeeeee 0
+
+ee eee eeee eeeee eeeeee eeeeeeee eeee eeeeeeeee
+eeeeeeeee eeeee eeeeee eeeeeeeeee eeee e eeeee
+eeeeeeeee eeeeeee eeeeeee ee eeeeeeeeeeee eeee
+eeeee eeeeee eeeeeeeeeee e eeeeeeeeeeeee
+eeeeeeeeeeeeeee eeeeeeeeeeeeee eeeeeeeee eeeeeee
+```
+
+This uses preprocessor macros to replace every keyword with 'e's, creating a program entirely composed of the letter 'e'.
+
+## C++
+
+C++ with namespace aliases and macros:
+
+```cpp e.cc
+#include <iostream>
+#define e using
+#define ee namespace
+#define eee std
+#define eeee ;
+#define eeeee int
+#define eeeeee main
+#define eeeeeee (
+#define eeeeeeee )
+#define eeeeeeeee while
+#define eeeeeeeeee true
+#define eeeeeeeeeee {
+#define eeeeeeeeeeee }
+#define eeeeeeeeeeeee cout
+#define eeeeeeeeeeeeee cerr
+#define eeeeeeeeeeeeeee <<
+#define eeeeeeeeeeeeeeee 'e'
+#define eeeeeeeeeeeeeeeee return
+
+e ee eee eeee
+eeeee eeeeee eeeeeee eeeeeeee
+eeeeeeeeeee
+eeeeeeeee eeeeeee eeeeeeeeee eeeeeeee
+eeeeeeeeeee
+eeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeeeeeeeeee eeee
+eeeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeeeeeeeeee eeee
+eeeeeeeeeeee
+eeeeeeeeeeeeeeeee eeeeeeeeeeeeeeee eeee
+eeeeeeeeeeee
+```
+
+## Rust
+
+Rust offers two implementations - functional and imperative:
+
+<CodeGroup>
+```rust Functional (with feature flag)
+#![feature(main)]
+#[cfg(feature = "functional")]
+#[main]
+fn e() {
+    std::iter::repeat('e').for_each(|e| print!("{}", e));
+}
+```
+
+```rust Imperative (default)
+#![feature(main)]
+#[cfg(not(feature = "functional"))]
+#[main]
+fn e() -> ! {
+    loop {
+        print!("e");
+    }
+}
+```
+</CodeGroup>
+
+The Rust implementation showcases:
+- Feature flags for conditional compilation
+- Type-safe infinite loops with `-> !` (never type)
+- Iterator chains in the functional style
+
+## Go
+
+Go's implementation is remarkably concise:
+
+```go e.go
+package main
+
+func main() {
+	for {
+		print("e")
+	}
+}
+```
+
+<Note>
+Go's `print` is a built-in function, not requiring any imports for basic output.
+</Note>
+
+## System Languages
+
+<Tabs>
+  <Tab title="D">
+    ```d e.d
+    import std.stdio;
+
+    int main() {
+       for(;;) {
+          writefln("e");
+       }
+       return 0;
+    }
+    ```
+  </Tab>
+  <Tab title="Nim">
+    ```nim e.nim
+    while true: echo 'e'
+    ```
+    
+    Nim's clean syntax makes it one of the most readable implementations.
+  </Tab>
+  <Tab title="Zig">
+    ```zig e.zig
+    const std = @import("std");
+
+    pub fn main() !void {
+        var stdout_file = try std.io.getStdOut();
+        while (true) {
+            try stdout_file.write("e");
+        }
+    }
+    ```
+    
+    Zig requires explicit error handling even for standard output.
+  </Tab>
+</Tabs>
+
+## JVM Languages
+
+<CodeGroup>
+```java Java
+public class e {
+
+	public static void main(String[] e) {
+		while("e".equals("e")) {
+			System.out.print("e");
+		}
+	}
+}
+```
+
+```kotlin Kotlin
+fun main() {
+    while (true) {
+    	print("e")
+    }
+}
+```
+
+```scala Scala
+object e extends App {
+  Stream.continually("e").foreach(print)
+}
+```
+</CodeGroup>
+
+## Native Languages
+
+<Tabs>
+  <Tab title="C#">
+    ```csharp e.cs
+    using Eeeeeee = System.Console;
+    using eeee = System.Boolean;
+
+    namespace e
+    {
+        class E
+        {
+            const eeee e = true;
+            
+            static void Main(string[] eeee)
+            {
+                while (e)
+                {
+                    Eeeeeee.Write('e');
+                }
+            }
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="Swift">
+    ```swift e.swift
+    while true {
+      print("e")
+    }
+    ```
+  </Tab>
+  <Tab title="Crystal">
+    ```crystal e.cr
+    loop do
+      print 'e'
+    end
+    ```
+  </Tab>
+</Tabs>
+
+## Legacy Compiled Languages
+
+<Tabs>
+  <Tab title="Fortran">
+    ```fortran e.f90
+    program e
+      do
+        write(*, "(a)", advance="no") "e"
+      enddo
+    endprogram e
+    ```
+  </Tab>
+  <Tab title="Ada">
+    ```ada e.adb
+    with Ada.Text_IO; use Ada.Text_IO;  
+
+    procedure Program is
+    begin
+       Ada.Text_IO.Put("e");
+    end Program;
+    ```
+  </Tab>
+  <Tab title="Pascal">
+    ```pascal e.pas
+    program e;
+
+    var
+      e:integer;
+    begin
+      e := 1;
+      while true do
+        begin	   
+          writeln('e');
+        end;
+    end.
+    ```
+  </Tab>
+  <Tab title="COBOL">
+    ```cobol e.cbl
+    IDENTIFICATION DIVISION.
+        PROGRAM-ID. eeeeeeeee.
+           
+    DATA DIVISION.
+        WORKING-STORAGE SECTION. 
+           01 e PIC X VALUE 0.
+           
+    PROCEDURE DIVISION.
+        MAIN-PROCEDURE.
+            PERFORM UNTIL e > e  
+                DISPLAY 'e'
+            END-PERFORM.
+        STOP RUN.
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+Most of these implementations create infinite loops. Use Ctrl+C to terminate them.
+</Warning>

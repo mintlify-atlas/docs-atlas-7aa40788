@@ -1,0 +1,297 @@
+---
+title: Esoteric Languages
+description: Creative implementations in Brainfuck, LOLCODE, ArnoldC, and other unconventional languages
+---
+
+Esoteric programming languages (esolangs) are designed to test boundaries of language design, as art projects, jokes, or intellectual challenges. Here's how they print 'e'.
+
+## Brainfuck
+
+The most famous esoteric language:
+
+```brainfuck e.bf
+++++++++++[>++++++++++<-]>+[.]
+```
+
+<Accordion title="How It Works">
+1. `++++++++++` - Set cell 0 to 10
+2. `[>++++++++++<-]` - Multiply: cell 1 = 10 × 10 = 100
+3. `>+` - Move to cell 1 and add 1, making it 101 (ASCII 'e')
+4. `[.]` - Infinite loop: print current cell
+
+Brainfuck operates on a tape of cells with only 8 operations:
+- `+` increment
+- `-` decrement  
+- `>` move right
+- `<` move left
+- `.` output
+- `,` input
+- `[` loop start
+- `]` loop end
+</Accordion>
+
+## LOLCODE
+
+Internet meme as a programming language:
+
+```lolcode e.lol
+HAI 1.2
+  CAN HAS STDIO?
+  
+  IM IN YR nonStopE             BTW this loop is infinite
+      
+    BOTH SAEM "e" AN "e", O RLY?
+      YA RLY
+        VISIBLE "e"
+      NO WAI
+        VISIBLE "impossible bruh"
+    OIC
+    
+  IM OUTTA YR nonStopE
+  
+KTHXBYE
+```
+
+<Note>
+LOLCODE features:
+- `HAI` starts the program
+- `CAN HAS` imports libraries
+- `IM IN YR` starts a loop
+- `BOTH SAEM` checks equality
+- `O RLY?`, `YA RLY`, `NO WAI` = if/then/else
+- `VISIBLE` prints output
+- `BTW` starts a comment
+- `KTHXBYE` ends the program
+</Note>
+
+## ArnoldC
+
+Programming language based on Arnold Schwarzenegger quotes:
+
+```arnoldc e.arnoldc
+IT'S SHOWTIME
+	STICK AROUND @NO PROBLEMO
+		TALK TO THE HAND "e"
+	CHILL
+YOU HAVE BEEN TERMINATED
+```
+
+Keyword translations:
+- `IT'S SHOWTIME` = main function start
+- `STICK AROUND` = while loop
+- `@NO PROBLEMO` = true
+- `TALK TO THE HAND` = print
+- `CHILL` = end while
+- `YOU HAVE BEEN TERMINATED` = end main
+
+## Whitespace-Based Languages
+
+<Tabs>
+  <Tab title="Whitespace">
+    Whitespace uses only spaces, tabs, and newlines. The actual code is invisible!
+    
+    ```
+    [This file contains only whitespace characters]
+    ```
+    
+    <Tip>
+    View whitespace characters with `cat -A filename` or use a hex editor to see the actual program.
+    </Tip>
+  </Tab>
+  <Tab title="Shakespeare">
+    ```shakespeare e.scd
+    The Letter E.
+    
+    Romeo, a young man.
+    Juliet, a young woman.
+    
+    Act I: The Printing.
+    ```
+    
+    Shakespeare Programming Language writes programs as plays with characters as variables.
+  </Tab>
+</Tabs>
+
+## Stack-Based Esoteric
+
+<Tabs>
+  <Tab title="FALSE">
+    ```false e.b
+    101[$]#
+    ```
+    
+    - `101` pushes ASCII value of 'e'
+    - `[$]#` infinite loop that outputs top of stack
+  </Tab>
+  <Tab title="Befunge">
+    ```befunge e.bf
+    "e",@
+    ```
+    
+    2D programming language where instruction pointer moves through a grid.
+  </Tab>
+</Tabs>
+
+## Language-Based Jokes
+
+<Tabs>
+  <Tab title="Chicken">
+    ```chicken
+    chicken chicken chicken chicken chicken chicken chicken chicken chicken chicken
+    chicken chicken chicken chicken chicken chicken chicken
+    ```
+    
+    The entire program consists only of the word "chicken" with different counts per line.
+  </Tab>
+  <Tab title="Emoji">
+    ```emoji e.emojic
+    🏁 🍇
+      🔁 👍 🍇
+        😀 🔤e🔤
+      🍉
+    🍉
+    ```
+    
+    Emojicode uses emojis as the primary syntax.
+  </Tab>
+  <Tab title="BIRL">
+    ```birl e.birl
+    HORA DO SHOW
+      CE QUER VER ESSA PORRA? ("e")
+      BORA CUMPADE 1
+    BIRL
+    ```
+    
+    Brazilian bodybuilder-themed language using Portuguese slang.
+  </Tab>
+</Tabs>
+
+## Regional Variants
+
+<Tabs>
+  <Tab title="Aheui (Korean)">
+    ```aheui e.aheui
+    밯망희
+    ```
+    
+    Uses Korean Hangul characters where each has semantic meaning based on its components.
+  </Tab>
+  <Tab title="文言 (Wenyan)">
+    Classical Chinese programming language that looks like ancient literature.
+  </Tab>
+</Tabs>
+
+## Unconventional Formats
+
+<Tabs>
+  <Tab title="Piet">
+    Piet programs are images where the code is represented by colors and blocks.
+    
+    <Info>
+    The file `e.png` in the source directory is actually executable Piet code!
+    </Info>
+  </Tab>
+  <Tab title="Velato">
+    Programs written as MIDI music files where pitch and interval determine operations.
+    
+    The file `eeeee.mp3` is executable Velato code.
+  </Tab>
+  <Tab title="Folders">
+    A language where the program structure is represented entirely by folder hierarchies - no actual code files!
+  </Tab>
+</Tabs>
+
+## Practical Esoteric
+
+<Tabs>
+  <Tab title="Rockstar">
+    ```rockstar
+    While true is true
+      Say "e"
+    ```
+    
+    Designed to look like 1980s rock lyrics.
+  </Tab>
+  <Tab title="Chef">
+    ```chef
+    Recipe for Printing E.
+    
+    Ingredients.
+    101 g eggs
+    
+    Method.
+    Put eggs into mixing bowl.
+    Pour contents of mixing bowl into baking dish.
+    ```
+    
+    Programs are written as cooking recipes.
+  </Tab>
+</Tabs>
+
+## Why Esoteric Languages?
+
+<CardGroup cols={2}>
+  <Card title="Turing Completeness" icon="infinity">
+    Even the simplest languages (like Brainfuck) are Turing complete.
+    
+    They can theoretically compute anything.
+  </Card>
+  <Card title="Minimalism" icon="compress">
+    Languages like Brainfuck prove how little is needed for computation.
+    
+    Only 8 operations required!
+  </Card>
+  <Card title="Art & Humor" icon="palette">
+    Languages like Piet and Chef treat code as artistic expression.
+    
+    LOLCODE and ArnoldC provide entertainment.
+  </Card>
+  <Card title="Education" icon="graduation-cap">
+    Esolangs teach fundamental CS concepts.
+    
+    Strip away syntax to reveal core ideas.
+  </Card>
+</CardGroup>
+
+## Difficulty Levels
+
+<AccordionGroup>
+  <Accordion title="Beginner-Friendly">
+    - LOLCODE - readable syntax based on internet culture
+    - ArnoldC - familiar movie quotes
+    - Rockstar - looks like natural language
+  </Accordion>
+  <Accordion title="Intermediate Challenge">
+    - Brainfuck - simple rules, complex programs
+    - Befunge - 2D navigation adds complexity
+    - Shakespeare - verbose but logical
+  </Accordion>
+  <Accordion title="Expert Level">
+    - Malbolge - deliberately difficult to use
+    - Whitespace - invisible code requires special tools
+    - Piet - visual programming with color theory
+  </Accordion>
+</AccordionGroup>
+
+## Running Esoteric Languages
+
+Most esoteric languages require specialized interpreters:
+
+```bash Terminal Commands
+# Brainfuck
+bf e.bf
+
+# LOLCODE
+lci e.lol
+
+# ArnoldC
+java -jar ArnoldC.jar e.arnoldc
+```
+
+<Warning>
+Many esoteric language interpreters are hobby projects and may have limited platform support or be unmaintained.
+</Warning>
+
+<Tip>
+For a complete list of esoteric languages, visit the [Esolang Wiki](https://esolangs.org/). The 'e' project includes many more esoteric implementations beyond what's shown here!
+</Tip>

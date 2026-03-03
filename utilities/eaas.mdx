@@ -1,0 +1,89 @@
+---
+title: 'E as a Service'
+description: 'A simple HTTP server that streams the letter e infinitely'
+---
+
+## Overview
+
+E as a Service (eaas.sh) is a minimalist HTTP server that demonstrates the ultimate commitment to the letter 'e'. When running, it serves an endless stream of the letter 'e' over HTTP, embodying the concept of "e" as a continuously available service.
+
+## What It Does
+
+This shell script creates a simple HTTP server on port 3333 that:
+- Responds to any HTTP request with a 200 OK status
+- Streams an infinite sequence of the letter 'e'
+- Runs continuously, accepting new connections after each request
+
+## Source Code
+
+```bash
+#!/bin/sh
+# e as a service
+# usage:
+# ./eaas.sh
+# xdg-open http://127.0.0.1:3333
+while true; do
+  ( printf "HTTP/1.0 200 OK\r\n\r\n<html><body>" && yes e ) |
+    nc -w 1 -l -p 3333
+done
+```
+
+## Setup and Usage
+
+<Steps>
+  <Step title="Make the script executable">
+    ```bash
+    chmod +x eaas.sh
+    ```
+  </Step>
+
+  <Step title="Start the server">
+    ```bash
+    ./eaas.sh
+    ```
+    The server will start listening on port 3333.
+  </Step>
+
+  <Step title="Access the service">
+    Open your browser or use curl:
+    ```bash
+    # In a browser
+    xdg-open http://127.0.0.1:3333
+
+    # Or with curl
+    curl http://127.0.0.1:3333
+    ```
+  </Step>
+</Steps>
+
+## Example Output
+
+When you connect to the server, you'll see:
+
+```
+e
+e
+e
+e
+e
+e
+...
+(continues infinitely)
+```
+
+## How It Works
+
+1. **Infinite Loop**: The `while true` loop keeps the server running indefinitely
+2. **HTTP Response**: `printf` sends a minimal HTTP header with 200 OK status
+3. **Endless e's**: `yes e` produces an infinite stream of the letter 'e'
+4. **Netcat Server**: `nc -w 1 -l -p 3333` listens on port 3333 and serves the response
+
+## Why It Exists
+
+E as a Service represents the philosophical endpoint of microservices architecture: a service so focused on its single responsibility that it literally does one thing and does it infinitely well. It's both a joke and a commentary on service-oriented architecture taken to its logical extreme.
+
+## Requirements
+
+- Unix-like operating system (Linux, macOS, BSD)
+- `netcat` (nc) utility
+- Port 3333 available

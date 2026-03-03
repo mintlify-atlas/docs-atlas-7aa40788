@@ -1,0 +1,252 @@
+---
+title: Audio Formats
+description: Audio recordings of the letter 'e' being spoken
+---
+
+The **e** project includes audio recordings of the letter 'e' being pronounced, demonstrating how sound can be encoded in both uncompressed and compressed formats.
+
+## Available Formats
+
+### WAV (Waveform Audio File Format)
+**File**: `e.wav` | **Size**: 642 KB
+
+An uncompressed audio recording of someone saying 'e'.
+
+<Accordion title="Technical Specifications">
+- **Container**: RIFF (Resource Interchange File Format)
+- **Codec**: Microsoft PCM (Pulse Code Modulation)
+- **Bit depth**: 16-bit
+- **Sample rate**: 44,100 Hz (CD quality)
+- **Channels**: Mono (1 channel)
+- **Byte rate**: 88,200 bytes/second
+- **Duration**: ~7.3 seconds (estimated)
+
+**How it works**: WAV files store audio as raw, uncompressed PCM data. Each sample is a 16-bit integer representing the amplitude of the sound wave at that moment in time. With 44,100 samples per second, the audio data alone requires:
+
+```
+44,100 samples/sec × 2 bytes/sample × 1 channel = 88,200 bytes/sec
+642 KB ÷ 88.2 KB/sec ≈ 7.3 seconds of audio
+```
+
+The file contains a small RIFF/WAV header followed by raw audio samples.
+</Accordion>
+
+**Characteristics**:
+- **Lossless**: Perfect reproduction of original audio
+- **Large file size**: No compression
+- **CD quality**: 44.1 kHz is the standard for audio CDs
+- **Widely supported**: Plays on virtually any audio software
+
+### MP3 (MPEG Audio Layer III)
+**File**: `eeeee.mp3` | **Size**: 26 KB
+
+A compressed audio file, likely containing the letter 'e' repeated multiple times ('eeeee').
+
+<Accordion title="Technical Specifications">
+- **Format**: MPEG ADTS (Audio Data Transport Stream)
+- **Layer**: III (MP3)
+- **Version**: MPEG-2
+- **Bitrate**: 32 kbps (low bitrate)
+- **Sample rate**: 24 kHz
+- **Channels**: Mono
+- **Duration**: ~6.5 seconds (estimated)
+
+**How it works**: MP3 uses perceptual audio coding to remove sounds that humans can't hear or won't notice. It divides the audio into frames and applies psychoacoustic models to determine which frequencies can be discarded or reduced in quality.
+
+**Duration calculation**:
+```
+26 KB = 26,624 bytes
+32 kbps = 4,000 bytes/second
+26,624 bytes ÷ 4,000 bytes/sec ≈ 6.5 seconds
+```
+
+At 32 kbps, this is a very low bitrate encoding, suitable for voice but not high-fidelity music.
+</Accordion>
+
+**Characteristics**:
+- **Lossy compression**: Some audio quality lost
+- **24× smaller than WAV** (26 KB vs 642 KB)
+- **Low bitrate**: 32 kbps is minimal quality
+- **Good for voice**: Speech remains intelligible at low bitrates
+
+## Format Comparison
+
+| Property | WAV | MP3 |
+|----------|-----|-----|
+| **Size** | 642 KB | 26 KB |
+| **Type** | Uncompressed | Lossy compressed |
+| **Quality** | Perfect (lossless) | Reduced (lossy) |
+| **Bitrate** | ~1,411 kbps | 32 kbps |
+| **Sample Rate** | 44.1 kHz | 24 kHz |
+| **Compression Ratio** | 1:1 (none) | ~24:1 |
+| **Best For** | Archival, editing | Distribution, streaming |
+
+## Compression Analysis
+
+The MP3 file is **24.7× smaller** than the WAV file while maintaining intelligible speech:
+
+<Accordion title="How MP3 Achieves 24:1 Compression">
+**1. Reduced sample rate**: 24 kHz vs 44.1 kHz
+- Removes frequencies above 12 kHz (most important for music, less for speech)
+- Human speech typically ranges from 85 Hz to 8 kHz
+
+**2. Perceptual coding**:
+- Removes sounds masked by louder sounds
+- Reduces precision of quiet sounds
+- Exploits how human hearing works
+
+**3. Low bitrate**: 32 kbps
+- Only 4,000 bytes per second of audio
+- Adequate for voice/speech
+- Would sound poor for music
+
+**4. Huffman coding**:
+- Further compresses the data using statistical methods
+- Similar to how ZIP compression works
+
+**Trade-off**: The compressed audio has noticeable quality loss compared to the original, but the spoken letter 'e' remains perfectly understandable.
+</Accordion>
+
+## Listening to the Files
+
+### Command Line
+```bash
+# Play with ffplay (FFmpeg)
+ffplay e.wav
+ffplay eeeee.mp3
+
+# Play with mpv
+mpv e.wav
+mpv eeeee.mp3
+
+# Play with SoX
+play e.wav
+```
+
+### Programming Examples
+
+<Accordion title="Python - Play Audio">
+```python
+import pygame
+
+# Initialize pygame mixer
+pygame.mixer.init()
+
+# Load and play WAV
+sound = pygame.mixer.Sound('e.wav')
+sound.play()
+
+# Or use pydub for MP3
+from pydub import AudioSegment
+from pydub.playback import play
+
+mp3_audio = AudioSegment.from_mp3('eeeee.mp3')
+play(mp3_audio)
+```
+</Accordion>
+
+<Accordion title="JavaScript - Web Audio">
+```javascript
+// HTML5 Audio Element
+const audio = new Audio('e.wav');
+audio.play();
+
+// Or with Web Audio API
+const audioContext = new AudioContext();
+
+fetch('eeeee.mp3')
+  .then(response => response.arrayBuffer())
+  .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+  .then(audioBuffer => {
+    const source = audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioContext.destination);
+    source.start();
+  });
+```
+</Accordion>
+
+## Audio Analysis Tools
+
+### Get Audio Information
+```bash
+# FFmpeg probe
+ffprobe -hide_banner e.wav
+ffprobe -hide_banner eeeee.mp3
+
+# SoX info
+soxi e.wav
+
+# MediaInfo
+mediainfo e.wav --Full
+```
+
+### Visualize Waveform
+```bash
+# Generate waveform image with FFmpeg
+ffmpeg -i e.wav -filter_complex \
+  "showwavespic=s=1280x240" waveform.png
+
+# Generate spectrogram
+ffmpeg -i e.wav -lavfi \
+  "showspectrumpic=s=1280x480" spectrogram.png
+```
+
+### Convert Between Formats
+```bash
+# WAV to MP3 (higher quality)
+ffmpeg -i e.wav -codec:a libmp3lame -b:a 128k e_128k.mp3
+
+# MP3 to WAV
+ffmpeg -i eeeee.mp3 eeeee.wav
+
+# Change sample rate
+ffmpeg -i e.wav -ar 24000 e_24khz.wav
+
+# Compress WAV to FLAC (lossless)
+ffmpeg -i e.wav e.flac
+```
+
+## Understanding Audio Quality
+
+<Accordion title="What Affects Audio Quality?">
+**Sample Rate** (Hz):
+- **44,100 Hz**: CD quality, captures up to 22 kHz (human hearing limit ~20 kHz)
+- **24,000 Hz**: Captures up to 12 kHz, sufficient for speech
+- **8,000 Hz**: Telephone quality
+
+**Bit Depth** (bits per sample):
+- **16-bit**: 96 dB dynamic range, CD quality
+- **8-bit**: 48 dB dynamic range, lower quality
+- **24-bit**: 144 dB dynamic range, professional audio
+
+**Bitrate** (for compressed audio):
+- **320 kbps**: High quality MP3, nearly transparent
+- **128 kbps**: Standard quality, good for music
+- **64 kbps**: Acceptable for speech
+- **32 kbps**: Low quality, speech only
+
+**Channels**:
+- **Mono**: Single channel (both formats use mono)
+- **Stereo**: Two channels (left/right)
+</Accordion>
+
+## Why Two Formats?
+
+The project includes both formats to demonstrate:
+
+1. **Uncompressed vs Compressed**: WAV shows the raw, unmodified audio; MP3 shows lossy compression
+2. **Quality vs Size Trade-off**: 24× size reduction with acceptable quality loss
+3. **Format Purpose**: WAV for archival/editing, MP3 for distribution
+4. **Audio Encoding**: How digital audio can be stored efficiently
+
+## Key Takeaways
+
+- **WAV is 24× larger** but preserves perfect audio quality
+- **MP3 compression** removes imperceptible audio data to save space
+- **For speech**, low-bitrate MP3 (32 kbps) is usually sufficient
+- **Sample rate** matters more for music than speech
+- Both formats successfully convey the spoken letter 'e'
+- **Mono audio** is appropriate since speech doesn't need stereo
+
+For simple speech like the letter 'e', **MP3 at 32 kbps is sufficient**, saving 96% of the space compared to uncompressed WAV.

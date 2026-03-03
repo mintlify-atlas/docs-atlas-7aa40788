@@ -1,0 +1,196 @@
+---
+title: Adding New Languages
+description: Step-by-step guide for adding new programming language implementations to the e project.
+---
+
+Ready to add a new language to the **e** collection? This guide will walk you through the process of creating and submitting a new implementation.
+
+## Requirements
+
+Before you begin, make sure your implementation:
+
+- **Prints 'e' infinitely**: The program should output the letter 'e' continuously
+- **Uses a unique language/format**: Check that we don't already have this implementation
+- **Uses the correct file extension**: Follow standard conventions for the language
+- **Runs successfully**: Test your code before submitting
+
+## Step-by-Step Guide
+
+<Steps>
+  <Step title="Check for existing implementations">
+    Browse the `source/` directory to ensure your language isn't already implemented:
+    
+    ```bash
+    ls source/ | grep -i "your-extension"
+    ```
+    
+    We have over 130 implementations, so look carefully!
+  </Step>
+  
+  <Step title="Choose your filename">
+    Use the standard naming convention:
+    
+    - **Standard format**: `e.{extension}`
+    - **Examples**: `e.py`, `e.rs`, `e.java`, `e.js`
+    - **Variants**: For platform-specific versions, use descriptive names like `e_macOS_64.S` or `e_win32.asm`
+  </Step>
+  
+  <Step title="Write your implementation">
+    Create a program that prints 'e' infinitely. Here are examples in different languages:
+    
+    **Python (`e.py`)**:
+    ```python
+    import sys
+    
+    try:
+        while 'e':
+            sys.stdout.write('e')
+    except KeyboardInterrupt as e:
+        sys.exit('e')
+    ```
+    
+    **Java (`e.java`)**:
+    ```java
+    public class e {
+        public static void main(String[] e) {
+            while("e".equals("e")) {
+                System.out.print("e");
+            }
+        }
+    }
+    ```
+    
+    **Rust (`e.rs`)**:
+    ```rust
+    #[main]
+    fn e() -> ! {
+        loop {
+            print!("e");
+        }
+    }
+    ```
+    
+    **Tips**:
+    - Keep it simple and idiomatic for the language
+    - Avoid buffering issues - output should appear immediately
+    - Be creative! The project encourages playful implementations
+    - Consider using the letter 'e' in variable names, function names, etc.
+  </Step>
+  
+  <Step title="Test your implementation">
+    Run your program to verify it works correctly:
+    
+    ```bash
+    # For interpreted languages
+    python e.py
+    ruby e.rb
+    node e.js
+    
+    # For compiled languages
+    javac e.java && java e
+    rustc e.rs && ./e
+    gcc e.c -o e && ./e
+    ```
+    
+    You should see a continuous stream of 'e' characters. Press Ctrl+C to stop.
+  </Step>
+  
+  <Step title="Place your file in the source directory">
+    Add your implementation to the `source/` directory:
+    
+    ```bash
+    cp your-implementation source/e.extension
+    ```
+  </Step>
+  
+  <Step title="Create a pull request">
+    Submit your contribution:
+    
+    1. Fork the repository
+    2. Create a new branch: `git checkout -b add-language-name`
+    3. Add your file: `git add source/e.extension`
+    4. Commit with a descriptive message: `git commit -m "Add [Language Name] implementation"`
+    5. Push to your fork: `git push origin add-language-name`
+    6. Open a pull request on GitHub
+    
+    **Pull request title**: `Add [Language Name] implementation`
+    
+    **Pull request description**:
+    ```markdown
+    Adds an implementation of 'e' in [Language Name].
+    
+    - File: `e.extension`
+    - Tested on: [OS/platform]
+    - Runtime/compiler version: [version if relevant]
+    ```
+  </Step>
+</Steps>
+
+## Examples of Creative Implementations
+
+The **e** project encourages creativity! Here are some examples:
+
+### Esoteric Languages
+
+Many implementations use esoteric programming languages:
+- **Brainfuck** (`e.bf`): Using only 8 commands
+- **LOLCODE** (`e.lol`): HAI WORLD style
+- **Emojic** (`e.emojic`): Using emojis as code
+
+### File Formats
+
+Some implementations treat file formats as "languages":
+- **SVG** (`e.svg`): Drawing the letter 'e'
+- **JSON** (`e.json`): Structured data containing 'e'
+- **Markdown** (`e.md`): A document that displays 'e'
+
+### Platform-Specific Assembly
+
+Multiple assembly implementations for different platforms:
+- `e_macOS_64.S`: macOS 64-bit assembly
+- `e_win32.asm`: Windows 32-bit assembly
+- `e_linux_riscv64.S`: Linux RISC-V 64-bit assembly
+
+### Special Variants
+
+Creative variations on standard languages:
+- `e.jsfuck.js`: JavaScript using only `[]()!+` characters
+- `e.e.py`: A Python implementation with extra 'e' flair
+
+## Tips for Success
+
+### Do:
+- ✓ Test your code thoroughly
+- ✓ Use idiomatic style for the language
+- ✓ Be creative and have fun
+- ✓ Include any special instructions in your PR description
+- ✓ Make sure the output is unbuffered for immediate display
+
+### Don't:
+- ✗ Submit implementations that print 'e' only once
+- ✗ Use non-standard file extensions without explanation
+- ✗ Copy implementations from other contributors without attribution
+- ✗ Add files outside the `source/` directory without discussion
+
+## What Happens After Submission?
+
+Once you submit your pull request:
+
+1. **Review**: Maintainers will review your implementation
+2. **Testing**: We'll test that it runs correctly
+3. **Feedback**: You may receive suggestions for improvements
+4. **Merge**: Once approved, your contribution will be merged!
+5. **Credit**: You'll be credited as a contributor
+
+## Need Inspiration?
+
+Browse the existing implementations in `source/` to see the variety of approaches. Some languages to consider:
+
+- Modern languages: Zig, Carbon, V, Odin
+- Functional languages: Elm, PureScript, ReasonML
+- Systems languages: D, Nim, Crystal
+- Scripting languages: Raku, Fish, Nu
+- Markup/data formats: TOML, YAML, XML, CSV
+- Esoteric languages: Piet, Whitespace, Ook!
+
+The possibilities are endless. What will you add?

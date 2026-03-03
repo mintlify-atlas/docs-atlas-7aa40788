@@ -1,0 +1,216 @@
+---
+title: Image Formats
+description: Visual representations of the letter 'e' in various image formats
+---
+
+The **e** project includes visual representations of the letter 'e' in multiple image formats, demonstrating how raster and vector graphics encode the same simple glyph in vastly different ways.
+
+## Available Formats
+
+### SVG (Scalable Vector Graphics)
+**File**: `e.svg` | **Size**: 409 bytes
+
+The most compact image format, SVG stores 'e' as vector markup that can scale infinitely without quality loss.
+
+<Accordion title="SVG Source Code">
+```xml
+<svg xmlns:svg="http://www.w3.org/2000/svg" 
+     xmlns="http://www.w3.org/2000/svg" 
+     version="1.0" 
+     width="9" 
+     height="9">
+    <text x=".4" y="8" 
+          style="font-size:12px;
+                 font-style:normal;
+                 font-weight:normal;
+                 fill:black;
+                 fill-opacity:1;
+                 stroke:none;
+                 font-family:Bitstream Vera Sans" 
+          xml:space="preserve">
+        <tspan x=".4" y="8">e</tspan>
+    </text>
+</svg>
+```
+
+**How it works**: SVG uses XML markup to define a text element containing the letter 'e', positioned at coordinates (0.4, 8) in a 9×9 pixel canvas. The text is rendered using the Bitstream Vera Sans font at 12px, filled with black color.
+</Accordion>
+
+**Advantages**: 
+- Smallest file size (409 bytes)
+- Infinitely scalable
+- Editable as text
+- Directly displayable in web browsers
+
+### PNG (Portable Network Graphics)
+**File**: `e.png` | **Size**: 3.8 KB
+
+A raster format that stores 'e' as a 222×222 pixel image with 8-bit RGB color.
+
+<Accordion title="Technical Details">
+- **Dimensions**: 222×222 pixels
+- **Color depth**: 8-bit per channel RGB (24-bit color)
+- **Compression**: Lossless PNG compression
+- **Interlacing**: Non-interlaced
+
+**How it works**: PNG uses deflate compression on filtered pixel data. Each pixel stores RGB values, and the image contains a rendered 'e' glyph. Despite being 222×222 pixels (147,936 pixels total), PNG compression reduces the file to just 3.8 KB because most pixels are the same background color.
+</Accordion>
+
+**Advantages**:
+- Lossless compression
+- Good for text and graphics with solid colors
+- Widely supported
+- Transparent background support
+
+### JPEG
+**File**: `eeeeeeee.jpeg` | **Size**: 418 KB
+
+A high-resolution photograph-style image of the letter 'e'.
+
+<Accordion title="Technical Details">
+- **Dimensions**: 1080×1920 pixels (Full HD portrait)
+- **Format**: JFIF standard 1.01
+- **Color**: Baseline 8-bit precision, 3 components (YCbCr)
+- **Compression**: Lossy JPEG compression
+- **Metadata**: Includes EXIF data
+
+**How it works**: JPEG uses discrete cosine transform (DCT) to compress image data, optimized for photographs. The file stores 'e' at full HD resolution (1080×1920), resulting in a much larger file size compared to other formats. JPEG's lossy compression is less efficient for text/graphics compared to PNG.
+</Accordion>
+
+**Note**: Despite being a photograph-oriented format, JPEG can represent 'e', though it's less efficient than PNG for text rendering.
+
+### JPG (Alternative JPEG)
+**File**: `e.jpg` | **Size**: 800 bytes
+
+Interestingly, this file is actually a PNG despite the `.jpg` extension!
+
+<Accordion title="Technical Details">
+- **Actual format**: PNG image data
+- **Dimensions**: 117×37 pixels
+- **Color depth**: 4-bit colormap (16 colors)
+- **Interlacing**: Non-interlaced
+
+**Why this matters**: This demonstrates that file extensions are merely conventions. The actual format is determined by the file's magic bytes (file signature). Tools like the `file` command read these magic bytes to identify the true format.
+
+```bash
+$ file e.jpg
+e.jpg: PNG image data, 117 x 37, 4-bit colormap, non-interlaced
+```
+</Accordion>
+
+### BMP (Bitmap)
+**File**: `e.bmp` | **Size**: 45 KB
+
+An uncompressed bitmap image in Windows 3.x format.
+
+<Accordion title="Technical Details">
+- **Format**: Windows 3.x BMP
+- **Dimensions**: 118×128 pixels
+- **Color depth**: 24-bit (True Color)
+- **Compression**: None
+- **Image data size**: 45,568 bytes
+- **Header offset**: 54 bytes
+
+**How it works**: BMP stores raw pixel data with minimal compression. Each of the 15,104 pixels (118×128) takes 3 bytes (RGB), resulting in 45,312 bytes of image data, plus a 54-byte header and 256-byte color table = 45,622 bytes total.
+
+**File size calculation**:
+- Pixels: 118 × 128 = 15,104
+- Bytes per pixel: 3 (RGB)
+- Image data: 15,104 × 3 = 45,312 bytes
+- Plus header: ~310 bytes
+- Total: ~45,622 bytes
+</Accordion>
+
+**Characteristics**:
+- Uncompressed = larger file size
+- Very simple format
+- Fast to read/write (no decompression needed)
+- Common on Windows systems
+
+## Format Comparison
+
+| Format | Size | Dimensions | Type | Compression | Best For |
+|--------|------|------------|------|-------------|----------|
+| SVG | 409 B | 9×9 | Vector | N/A | Scalable graphics, web |
+| JPG* | 800 B | 117×37 | Raster | None (PNG) | Small, indexed color |
+| PNG | 3.8 KB | 222×222 | Raster | Lossless | Text, solid colors |
+| BMP | 45 KB | 118×128 | Raster | None | Raw data, simplicity |
+| JPEG | 418 KB | 1080×1920 | Raster | Lossy | Photographs |
+
+*Note: `e.jpg` is actually a PNG file
+
+## Size Efficiency Analysis
+
+For rendering the same letter 'e':
+
+1. **SVG is 113× smaller than BMP** despite being scalable
+2. **PNG is 11× smaller than BMP** at higher resolution (222×222 vs 118×128)
+3. **JPEG is largest** due to high resolution (1080×1920) and being optimized for photos, not text
+
+<Accordion title="Why These Size Differences?">
+**SVG efficiency**: 
+- Stores text as markup, not pixels
+- ~400 bytes describe infinite resolution
+- Perfect for simple graphics and text
+
+**PNG efficiency**:
+- Lossless compression works well on solid colors
+- Large areas of identical pixels compress dramatically
+- Background pixels (white or transparent) compress to nearly nothing
+
+**BMP inefficiency**:
+- No compression at all
+- Every pixel explicitly stored
+- 3 bytes per pixel × 15,104 pixels = 45 KB
+
+**JPEG inefficiency for text**:
+- Optimized for smooth color gradients (photos)
+- High resolution (1080×1920) = 2,073,600 pixels
+- Lossy compression less effective on sharp text edges
+- Creates artifacts around text boundaries
+</Accordion>
+
+## Viewing Image Files
+
+### In a Web Browser
+```bash
+# SVG, PNG, JPEG, BMP all supported
+open e.svg  # macOS
+xdg-open e.png  # Linux
+start e.bmp  # Windows
+```
+
+### Command Line Tools
+```bash
+# Identify image properties
+file e.png
+identify e.bmp  # ImageMagick
+exiftool eeeeeeee.jpeg  # View EXIF metadata
+
+# View in terminal (ASCII art)
+img2txt e.png  # libcaca
+viu e.svg  # Terminal image viewer
+```
+
+### Image Manipulation
+```bash
+# Convert between formats
+convert e.svg e.converted.png  # ImageMagick
+ffmpeg -i e.png e.converted.jpg
+
+# Resize
+convert e.png -resize 50% e.small.png
+
+# Get image info
+identify -verbose e.bmp
+```
+
+## Key Takeaways
+
+1. **Vector vs Raster**: SVG (vector) scales infinitely, while raster formats (PNG, JPEG, BMP) have fixed resolutions
+2. **Compression matters**: PNG (3.8 KB) vs BMP (45 KB) at comparable quality
+3. **Format purpose**: JPEG is for photos, not text; PNG/SVG are better for 'e'
+4. **File extensions can lie**: `e.jpg` is actually a PNG
+5. **Resolution vs size**: Higher resolution doesn't always mean larger files (PNG 222×222 = 3.8 KB vs BMP 118×128 = 45 KB)
+
+For representing a simple letter, **SVG is the clear winner**: smallest size, infinite scalability, and human-readable source code.

@@ -1,0 +1,118 @@
+---
+title: 'Binary to e Converter'
+description: 'Convert any binary file into a representation using only the letters e and E'
+---
+
+## Overview
+
+2E.py (pronounced "to e" or "two e") is a binary file converter that transforms any file into a text representation using only two characters: lowercase 'e' for binary 0 and uppercase 'E' for binary 1. It's a unique encoding scheme that represents data entirely through variations of the letter 'e'.
+
+## What It Does
+
+This Python utility:
+- Reads any binary file byte by byte
+- Converts each byte to its 8-bit binary representation
+- Encodes binary 0 as lowercase 'e' and binary 1 as uppercase 'E'
+- Writes the result to an output file
+
+## Source Code
+
+```python
+#!/usr/bin/env python3.7
+
+import sys
+
+
+if len(sys.argv) is not 3:
+    print('usage : 2E.py [input file] [output file]')
+    exit(-1)
+
+inFile = open(sys.argv[1], mode='rb')
+outFile = open(sys.argv[2], mode='w')
+
+for buffer in iter(lambda: inFile.read(1), b''):
+    binStr = bin(int(buffer.hex(), base=16))[2:].zfill(8)
+    for c in binStr:
+        if c == '1':
+            outFile.write('E')
+        elif c == '0':
+            outFile.write('e')
+        else:
+            print('error!')
+            exit(-1)
+
+
+inFile.close()
+outFile.close()
+```
+
+## Setup and Usage
+
+<Steps>
+  <Step title="Make the script executable">
+    ```bash
+    chmod +x 2E.py
+    ```
+  </Step>
+
+  <Step title="Run the converter">
+    ```bash
+    ./2E.py input.txt output.txt
+    ```
+    Replace `input.txt` with your source file and `output.txt` with your desired output file.
+  </Step>
+
+  <Step title="View the results">
+    ```bash
+    cat output.txt
+    ```
+  </Step>
+</Steps>
+
+## Example Usage
+
+Let's convert a simple text file containing "Hi":
+
+```bash
+echo -n "Hi" > input.txt
+./2E.py input.txt output.txt
+cat output.txt
+```
+
+## Example Output
+
+For the input "Hi":
+
+```
+eEeeEeeeeeEEeEeeE
+```
+
+**Breakdown:**
+- 'H' (ASCII 72) = 01001000 = `eEeeEeee`
+- 'i' (ASCII 105) = 01101001 = `eeEEeEeeE`
+
+## How It Works
+
+1. **Binary Reading**: Opens the input file in binary mode (`rb`)
+2. **Byte Processing**: Reads one byte at a time using an iterator
+3. **Binary Conversion**: Converts each byte to its 8-bit binary string representation
+4. **e Encoding**: 
+   - Binary `0` becomes lowercase `e`
+   - Binary `1` becomes uppercase `E`
+5. **Output Writing**: Writes the encoded string to the output file
+
+## Why It Exists
+
+This utility demonstrates that any digital information can be represented using just variations of the letter 'e'. It's a playful exploration of binary encoding and a testament to the versatility of the letter 'e' as a medium for data representation. While impractical for real-world use, it's conceptually similar to other binary-to-text encodings like Base64, but with significantly more 'e'.
+
+## Requirements
+
+- Python 3.7 or higher
+- Read access to input file
+- Write access to output location
+
+## Notes
+
+- The output file will be 8 times larger than the input (each byte becomes 8 characters)
+- All binary data is preserved and could theoretically be decoded back to the original
+- Works with any file type: text, images, executables, etc.

@@ -1,0 +1,273 @@
+---
+title: Functional Languages
+description: Implementations in Haskell, OCaml, Lisp, Scheme, and other functional paradigms
+---
+
+Functional programming languages emphasize immutability, pure functions, and recursion. Here's how they approach the infinite task of printing 'e'.
+
+## Pure Functional
+
+### Haskell
+
+Haskell's elegant solution using infinite lists:
+
+```haskell e.hs
+main = putStr $ cycle "e"
+```
+
+This one-liner demonstrates:
+- `cycle` creates an infinite list by repeating its argument
+- `putStr` outputs the string without a newline
+- Lazy evaluation allows working with infinite data structures
+
+<Note>
+Haskell's lazy evaluation means the infinite list is generated on-demand, not stored in memory.
+</Note>
+
+### OCaml
+
+OCaml with tail-recursive function:
+
+```ocaml e.ml
+let rec eee e = Printf.printf "e"; eee ();;
+let () = eee ();;
+```
+
+The implementation:
+- Uses tail recursion for constant stack space
+- `rec` keyword allows the function to call itself
+- Double semicolon `;;` terminates top-level statements
+
+## Lisp Dialects
+
+<Tabs>
+  <Tab title="Common Lisp">
+    ```lisp e.lisp
+    (loop (print "e"))
+    ```
+    
+    Common Lisp's `loop` macro provides a simple infinite loop construct.
+  </Tab>
+  <Tab title="Scheme">
+    ```scheme e.scm
+    (define (e)
+        (display "e")
+        (e))
+    (e)
+    ```
+    
+    Classic Scheme using tail recursion, which is optimized by the implementation.
+  </Tab>
+  <Tab title="Racket">
+    ```racket e.rkt
+    #lang racket
+
+    (define eee display)
+
+    (define (e ee)
+      (eee ee)
+      (e ee))
+
+    (module* main #f
+      (e #\e))
+    ```
+    
+    Racket features:
+    - Module system with `#lang racket`
+    - Character literal `#\e`
+    - Renamed `display` function to maintain 'e' naming
+  </Tab>
+  <Tab title="Clojure">
+    ```clojure e.cljc
+    (loop [] (print "e") (recur))
+    ```
+    
+    Clojure's explicit tail recursion with `recur`.
+  </Tab>
+</Tabs>
+
+## ML Family
+
+<CodeGroup>
+```ocaml OCaml
+let rec eee e = Printf.printf "e"; eee ();;
+let () = eee ();;
+```
+
+```fsharp F#
+let rec e () = 
+    printf "e"
+    e ()
+e ()
+```
+
+```sml Standard ML
+fun e () = (print "e"; e ())
+val _ = e ()
+```
+</CodeGroup>
+
+## Functional Features in Multi-Paradigm Languages
+
+### Scala
+
+Scala's functional approach using streams:
+
+```scala e.scala
+object e extends App {
+  Stream.continually("e").foreach(print)
+}
+```
+
+<Accordion title="Scala Implementation Details">
+- `Stream.continually` creates an infinite lazy stream
+- `foreach` applies the function to each element
+- `extends App` provides a main entry point without boilerplate
+- Lazy evaluation prevents memory exhaustion
+</Accordion>
+
+### Rust (Functional Style)
+
+Rust's iterator chains:
+
+```rust e.rs
+std::iter::repeat('e').for_each(|e| print!("{}", e));
+```
+
+Features:
+- `repeat` creates an infinite iterator
+- `for_each` is a consuming iterator method
+- Zero-cost abstractions - compiles to efficient code
+
+## Concatenative Languages
+
+### Forth
+
+Stack-based programming:
+
+```forth e.fs
+: e begin ." e" again ;
+e
+```
+
+- `: e` defines a new word named 'e'
+- `begin ... again` creates an infinite loop
+- `."` prints a string literal
+
+## Logic Programming
+
+### Prolog
+
+```prolog e.pro
+e :- write('e'), e.
+:- e.
+```
+
+Prolog's approach:
+- Defines a rule that writes 'e' and calls itself
+- Uses backtracking and unification
+- The `:-` operator separates head from body
+
+## Array Programming
+
+<Tabs>
+  <Tab title="J">
+    ```j e.ijs
+    echo 'e'
+    ```
+    
+    J's terse syntax for output.
+  </Tab>
+  <Tab title="Q/KDB+">
+    ```q e.q
+    while[1;-1"e"];
+    ```
+    
+    Q's financial programming focus with loop construct.
+  </Tab>
+</Tabs>
+
+## Modern Functional Languages
+
+<Tabs>
+  <Tab title="Elm">
+    ```elm e.el
+    (princ "e")
+    ```
+    
+    Elm (Emacs Lisp) for editor scripting.
+  </Tab>
+  <Tab title="Idris">
+    ```idris e.idr
+    module Main
+
+    partial
+    eee : IO ()
+    eee = do putStr "e"
+             eee
+
+    main : IO ()
+    main = eee
+    ```
+    
+    Idris features:
+    - `partial` annotation for non-terminating functions
+    - Dependent types for type-level programming
+    - Do-notation for IO sequencing
+  </Tab>
+  <Tab title="Erlang">
+    ```erlang e.erl
+    #!/usr/bin/env escript
+    main(_) ->
+        io:format("e"),
+        main('e').
+    ```
+  </Tab>
+</Tabs>
+
+## Functional Concepts Demonstrated
+
+<CardGroup cols={2}>
+  <Card title="Tail Recursion" icon="rotate">
+    Most implementations use tail recursion for constant stack space usage.
+    
+    Languages like Scheme guarantee tail call optimization.
+  </Card>
+  <Card title="Lazy Evaluation" icon="hourglass-half">
+    Haskell and Scala use lazy infinite structures.
+    
+    Values are computed only when needed.
+  </Card>
+  <Card title="Higher-Order Functions" icon="layer-group">
+    Functions like `foreach`, `map`, and `cycle` take functions as arguments.
+  </Card>
+  <Card title="Immutability" icon="lock">
+    No variables are modified after creation.
+    
+    State changes through recursion, not mutation.
+  </Card>
+</CardGroup>
+
+## Performance Considerations
+
+<AccordionGroup>
+  <Accordion title="Tail Call Optimization">
+    Languages with guaranteed TCO (Scheme, Erlang) maintain constant stack space for recursive implementations.
+    
+    Without TCO, stack overflow eventually occurs.
+  </Accordion>
+  <Accordion title="Lazy vs Eager Evaluation">
+    Lazy languages (Haskell) can work with infinite structures efficiently.
+    
+    Eager languages (OCaml) must use explicit recursion.
+  </Accordion>
+  <Accordion title="Compilation vs Interpretation">
+    Compiled functional languages (OCaml, Haskell with GHC) approach C-like performance.
+    
+    Interpreted Lisps have more overhead but still perform well.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+Functional approaches often lead to more concise code. Haskell's one-liner is among the shortest implementations across all languages.
+</Tip>

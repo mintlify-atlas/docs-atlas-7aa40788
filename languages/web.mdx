@@ -1,0 +1,297 @@
+---
+title: Web Technologies
+description: Implementations in JavaScript, TypeScript, HTML, PHP, and web frameworks
+---
+
+Web technologies span from low-level HTML to modern frameworks. Here's how the web ecosystem approaches printing 'e'.
+
+## Pure JavaScript
+
+The minimal Node.js/browser implementation:
+
+```javascript e.js
+while ('e') console.log('e');
+```
+
+This one-liner works in both Node.js and browser consoles. The truthy string `'e'` creates an infinite loop.
+
+## HTML + JavaScript
+
+A complete browser implementation:
+
+```html e.html
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>e</title>
+	<style>
+		[e] {
+			word-wrap:break-word;
+		}
+	</style>
+</head>
+
+<body>
+    <h1 e>e</h1>
+
+	<script>
+		let e = document.querySelector("[e]");
+		setInterval(() => {
+			e.innerHTML += "e";
+		}, 1);
+	</script>
+</body>
+
+</html>
+```
+
+<Note>
+This implementation:
+- Uses a custom attribute `[e]` as a CSS selector
+- Appends 'e' to the DOM every millisecond
+- Includes `word-wrap:break-word` to handle overflow
+</Note>
+
+## PHP
+
+Server-side PHP implementation:
+
+```php e.php
+<?php
+while (true) echo "e";
+```
+
+<Warning>
+Running this in a web server will eventually timeout or hit memory limits. It's primarily for CLI usage:
+```bash
+php e.php
+```
+</Warning>
+
+## Modern JavaScript Frameworks
+
+### React
+
+A class component that accumulates 'e's:
+
+```jsx e.jsx
+import React, { Component } from 'react';
+
+class E extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      e: 0,
+    };
+
+    this.timer = this.timer.bind(this);
+  }
+
+  componentDidMount() {
+    const eId = setInterval(this.timer, 10);
+    this.setState({ eInterval: eId });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.eInterval);
+  }
+
+  timer() {
+    this.setState({ e: this.state.e + 1 });
+  }
+
+  render() {
+    const e = Array(this.state.e).fill(<p>e</p>);
+    return e;
+  }
+}
+
+export default E;
+```
+
+<Accordion title="React Implementation Details">
+This component:
+- Uses class component lifecycle methods
+- Updates state every 10ms
+- Creates an array of paragraph elements
+- Properly cleans up the interval on unmount
+- Follows React best practices for timer management
+</Accordion>
+
+### Vue
+
+Vue single-file component:
+
+```vue e.vue
+<template>
+  <div class="e">
+    {{ e }}
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      e: 'e'
+    }
+  },
+
+  mounted () {
+    setInterval(() => {
+      this.e += 'e'
+    }, 1)
+  }
+}
+</script>
+
+<style>
+.e {
+  background: #eeeeee;
+}
+</style>
+```
+
+The Vue implementation:
+- Concatenates 'e' to the data property every millisecond
+- Uses reactive data binding for automatic DOM updates
+- Includes scoped styling with an appropriate background color
+
+## Template Languages
+
+<Tabs>
+  <Tab title="ERB (Ruby)">
+    ```erb e.html.erb
+    <% loop do %>
+      e
+    <% end %>
+    ```
+    
+    Embedded Ruby in HTML templates.
+  </Tab>
+  <Tab title="ColdFusion">
+    ```cfm e.cfm
+    <cfloop condition="true">
+      <cfoutput>e</cfoutput>
+    </cfloop>
+    ```
+  </Tab>
+</Tabs>
+
+## Browser-Specific APIs
+
+### WebAssembly Text Format
+
+```wasm e.wat
+(module
+  (import "wasi_unstable" "fd_write" 
+    (func $fd_write (param i32 i32 i32 i32) (result i32)))
+  
+  (memory 1)
+  (export "memory" (memory 0))
+  
+  (data (i32.const 8) "e")
+  
+  (func $main (export "_start")
+    (local $i i32)
+    (loop $continue
+      (i32.store (i32.const 0) (i32.const 8))
+      (i32.store (i32.const 4) (i32.const 1))
+      
+      (call $fd_write
+        (i32.const 1)
+        (i32.const 0)
+        (i32.const 1)
+        (i32.const 20))
+      drop
+      
+      (br $continue))))
+```
+
+## Alternative Web Languages
+
+<Tabs>
+  <Tab title="Dart">
+    ```dart e.dart
+    void main() {
+      while(true) {
+        print('e');
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Flutter (Dart)">
+    ```dart e.flutter.dart
+    import 'package:flutter/material.dart';
+
+    void main() => runApp(E());
+
+    class E extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+        return MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: Text('e' * 1000),
+            ),
+          ),
+        );
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="QML">
+    ```qml e.qml
+    import QtQuick 2.0
+
+    Rectangle {
+        width: 200
+        height: 200
+        
+        Text {
+            id: eText
+            text: "e"
+            anchors.centerIn: parent
+        }
+        
+        Timer {
+            interval: 1
+            running: true
+            repeat: true
+            onTriggered: eText.text += "e"
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Framework Comparison
+
+<CardGroup cols={2}>
+  <Card title="React" icon="react">
+    **Pros**: Component reusability, large ecosystem
+    
+    **Approach**: State management with intervals
+  </Card>
+  <Card title="Vue" icon="vuejs">
+    **Pros**: Simple syntax, reactive data
+    
+    **Approach**: Direct string concatenation
+  </Card>
+  <Card title="Vanilla JS" icon="js">
+    **Pros**: No dependencies, minimal code
+    
+    **Approach**: Direct DOM manipulation
+  </Card>
+  <Card title="WebAssembly" icon="cubes">
+    **Pros**: Near-native performance
+    
+    **Approach**: Low-level system calls
+  </Card>
+</CardGroup>
+
+<Tip>
+For actual web applications, consider using `requestAnimationFrame()` instead of `setInterval()` for better performance and synchronization with browser rendering.
+</Tip>
